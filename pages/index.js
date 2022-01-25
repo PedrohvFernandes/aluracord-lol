@@ -3,35 +3,17 @@ import { Box, Button, Text, TextField, Image } from '@skynexui/components';
 //Importando a configuração de paleta de cores e stickers que a Alura fez e armazenando nessa variavel, com isso so precisa mudar a cor na config, com isso o css fica dinamico https://coolors.co/ffffff-fff8e8-fcd581-d52941-990d35
 import appConfig from '../config.json';
 
-//Componente que vai resetar todo o estilo da pagina, por isso o nome global
-function GlobalStyle() {
-  return (
-    <style global jsx>{`
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        list-style: none;
-      }
-      body {
-        font-family: 'Open Sans', sans-serif;
-      }
-      /* App fit Height */ 
-      html, body, #__next {
-        min-height: 100vh;
-        display: flex;
-        flex: 1;
-      }
-      #__next {
-        flex: 1;
-      }
-      #__next > * {
-        flex: 1;
-      }
-      /* ./App fit Height */ 
-    `}</style>
-  );
-}
+// Hooks são ganchos: gancho pra algo, ganhco pra roteamento, etc e sempre com o 'use' 'alguma coisa', sempre tem um gancho no react pra alguma coisa
+// Importando hooks do react:
+
+// Importando o react pra usar os hooks
+import React from 'react';
+// import { useState } from 'react';
+
+// Importando os roteadores do next, obs: o proprio next faz o roteamento em vez de fazer na unha com o React, o next faz com o React para nos
+import { useRouter } from 'next/router';
+
+
 
 // Componente titulo
 // O props pega todas as propriedades do componente, por exemplo o filho dele(o titulo) e a tag
@@ -67,11 +49,17 @@ function Titulo(props) {
 // export default HomePage
 
 export default function PaginaInicial() {
-  const username = 'PedrohvFernandes';
+  // Hook de estado
+  //o username é o valor inicial/definido e setUsername ira fazer com que eu consiga inserir um novo digito no campo imput, porque no react é como que cada digito é uma foto é uma atualização, com isso agora eu consigo mudar o valor e a onde tiver a variavel username vai mudar dinamicamente e melhor so muda a onde deve mudar ele não recarrega a pagina toda: gerando perfomace, uma alteração de uma vez so em varios locais
+  const [username, setUsername] = React.useState('PedrohvFernandes');
+
+  // Hook de roteamento: serve para que a pagina não recarregue so mude o que precisa do que esta na outra pagina, e ir empilhando as paginas na barra de navegação do navegador
+  const roteamento = useRouter();
+
+  // const [button, setButton] = React.useState("disabled");
 
   return (
     <>
-      <GlobalStyle />
       <Box
         styleSheet={{
           display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -90,16 +78,20 @@ export default function PaginaInicial() {
               sm: 'row',
             },
             width: '100%', maxWidth: '700px',
-            height: '100%', maxHeight:'500px',
+            height: '100%', maxHeight: '500px',
             borderRadius: '5px', padding: '32px', margin: '16px',
             boxShadow: '0 2px 10px 0 rgb(0 0 0 / 20%)',
             backgroundColor: appConfig.theme.colors.neutrals[700],
-            
+
           }}
         >
           {/* Formulário */}
           <Box
             as="form"
+            onSubmit={function(infosDoEvento){
+              infosDoEvento.preventDefault();
+              roteamento.push('/chat')
+            }}
             styleSheet={{
               display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
               width: { xs: '100%', sm: '50%' }, textAlign: 'center', marginBottom: '32px',
@@ -111,6 +103,14 @@ export default function PaginaInicial() {
             </Text>
 
             <TextField
+              value={username}
+              onChange={function (event) {
+                console.log('usuario digitou', event.target.value)
+                // Onde ta o valor
+                const valor = event.target.value;
+                // trocar o valor da variavel
+                setUsername(valor);
+              }}
               fullWidth
               textFieldColors={{
                 neutral: {
@@ -121,6 +121,7 @@ export default function PaginaInicial() {
                 },
               }}
             />
+
             <Button
               type='submit'
               label='Entrar'
@@ -166,7 +167,7 @@ export default function PaginaInicial() {
                 backgroundColor: appConfig.theme.colors.neutrals[900],
                 padding: '3px 10px',
                 borderRadius: '1000px',
-                fontSize:'15px'
+                fontSize: '15px'
               }}
             >
               {username}
