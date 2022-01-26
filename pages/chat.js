@@ -4,6 +4,8 @@ import appConfig from '../config.json';
 
 export default function ChatPage() {
     const [mensagem, setMensagem] = React.useState('');
+
+    //o useState padrão é um array vazio, porque não tem mensagem nem uma ainda
     const [listaDeMensagens, setListaDeMensagens] = React.useState([]);
 
     /*
@@ -17,17 +19,21 @@ export default function ChatPage() {
     - [X] Vamos usar o onChange usa o useState (ter if pra caso seja enter pra limpar a variavel)
     - [X] Lista de mensagens 
     */
+
     //Aqui é uma função para enviar as mensagens usando map no MessageList 
     function handleNovaMensagem(novaMensagem) {
+        // O id substitui o key da mensagem, dessa maneira o key não da erro no console e agora não é so uma mensagem, é uma mensagem composta/objeto
         const mensagemComposta = {
             id: listaDeMensagens.length + 1,
             de: 'PedrohvFernandes',
             texto: novaMensagem,
         };
-        // Se a nova mensagem for um valor nulo e não tiver nada ele não envia a mensagem pra box, que é uma mensagem composta: id, de e texto e a lista de mensagens que é um vetor de estado: ele apaga o a mensagem do campo e envia essa mensagem do campo pra box e pro vetor
+        // Se a nova mensagem for um valor nulo e não tiver nada ele não envia a mensagem pra o box, que é uma mensagem composta: id, de e texto e a lista de mensagens que é um vetor de estado: ele apaga a mensagem do campo e envia essa mensagem do campo pra box e pro vetor
         if (novaMensagem.length !== null && novaMensagem.trim()) {
             setListaDeMensagens([
+                // A nova mensagem que a gente quer passar
                 mensagemComposta,
+                // mais as antigas mensagens, ... -> PEGA TODOS OS ITENS QUE JA TEM DENTRO DA LISTA E ESPALHA DENTRO DA LISTA NOVA E O DA MENSAGEM
                 ...listaDeMensagens,
             ]);
         }
@@ -85,7 +91,12 @@ export default function ChatPage() {
 
                     }}
                 >
+                    {/* Com o messagelist a gente separa os dados da mensagem, pra não dar erro ao enviar a mensagem, pois a mensagem é um objeto a onde ela esta armazenada no listaDeMensagens
+                    mensagens(so um nome aleatorio) recebe a lista de mensagens que atraves do props a gente consegue manipular, mesma coisa pro deleteMessage
+                    */}
                     <MessageList mensagens={listaDeMensagens} deleteMessage={handleDeleteMessage} />
+
+                    {/* Map serve pra mapear as mensagens na lista de mensagens que serve de entrada pra uma nova saida padronizada*/}
                     {/* {listaDeMensagens.map((mensagemAtual) => {
                         return (
                             <li key={mensagemAtual.id}>
@@ -108,7 +119,9 @@ export default function ChatPage() {
                             }}
                             onKeyPress={(event) => {
                                 if (event.key === 'Enter') {
+                                    // Sempre que tiver o enter a gente previne o comportamento padrão do enter que é a quebra de linha
                                     event.preventDefault();
+                                    // Metodo pra nova mensgem
                                     handleNovaMensagem(mensagem);
                                 }
                             }}
@@ -150,6 +163,7 @@ export default function ChatPage() {
     )
 }
 
+// Componente header feito por nos e não pela @skynexui/components
 function Header() {
     return (
         <>
@@ -185,8 +199,9 @@ function Header() {
     )
 }
 
+// Componente de mensagem nosso que é o componente que faz as mensagens aparecerem na tela
 function MessageList(props) {
-    // Essa variavel armazena a função de deletar a mensagem -> props.deleteMessage
+    // Essa variavel armazena a função de deletar a mensagem atraves do props, que no componente do MessageList é passado-> props.deleteMessage
     const handleDeleteMessage = props.deleteMessage
     return (
         <Box
@@ -278,7 +293,6 @@ function MessageList(props) {
                             }}>
                             {mensagem.texto}
                         </Text>
-
                     </Text>
                 );
             })}
