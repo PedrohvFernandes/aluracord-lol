@@ -9,7 +9,7 @@ function GlobalStyle() {
           list-style: none;
         }
         body {
-          font-family: 'Open Sans', sans-serif;
+          font-family: 'friz quadrata bold';
         }
         /* App fit Height */ 
         html, body, #__next {

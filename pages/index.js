@@ -56,23 +56,9 @@ export default function PaginaInicial() {
   // Hook de roteamento: serve para que a pagina não recarregue so mude o que precisa do que esta na outra pagina, e ir empilhando as paginas na barra de navegação do navegador
   const roteamento = useRouter();
 
+  const imagemError = 'https://stickers.wiki/static/stickers/league3motes/file_251551.webp?ezimgfmt=rs:144x144/rscb1/ng:webp/ngcb1';
+
   const [dados, setDados] = React.useState([]);
-
-  useEffect(() => {
-    obterDados()
-  }, [])
-
-  const obterDados = async () => {
-    try {
-      const resultado = await fetch(`https://api.github.com/users/${username}`)
-      const listaDados = await resultado.json()
-
-      setDados(listaDados)
-    } catch(err) {
-      alert('Não foi possivel carregar a API')
-    }
-  }
-
 
   return (
     <>
@@ -96,9 +82,8 @@ export default function PaginaInicial() {
             width: '100%', maxWidth: '700px',
             height: '100%', maxHeight: '500px',
             borderRadius: '5px', padding: '32px', margin: '16px',
-            boxShadow: '0 2px 10px 0 rgb(0 0 0 / 20%)',
+            boxShadow: ' 0 0 5em rgb( 223, 184, 122)',
             backgroundColor: appConfig.theme.colors.neutrals[700],
-
           }}
         >
           {/* Formulário */}
@@ -114,8 +99,8 @@ export default function PaginaInicial() {
             }}
           >
             <Titulo tag="h1">BEM VINDOS A SUMMONERS RIFT!</Titulo>
-            <Text variant="body3" styleSheet={{ marginBottom: '32px', color: appConfig.theme.colors.neutrals[300] }}>
-              {appConfig.name}
+            <Text variant="body3" styleSheet={{ fontFamily: 'friz quadrata bold', marginBottom: '32px', color: appConfig.theme.colors.neutrals[300] }}>
+              {appConfig.name} ({username})
             </Text>
 
             <TextField
@@ -125,6 +110,11 @@ export default function PaginaInicial() {
                 const valor = event.target.value;
                 // trocar o valor da variavel
                 setUsername(valor);
+                fetch(`https://api.github.com/users/${valor}`)
+                .then(response => response.json())
+                .then(data => {
+                  setDados(data)
+                })
               }}
               fullWidth
               textFieldColors={{
@@ -155,70 +145,77 @@ export default function PaginaInicial() {
 
 
           {/* Photo Area */}
-          {username.length > 2 && username.length !== null && username.trim() && (
-            < Box
+
+          < Box
+            styleSheet={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              maxWidth: '200px',
+              padding: '16px',
+              boxShadow: ' 0 0 1em rgb( 223, 184, 122)',
+              backgroundColor: appConfig.theme.colors.neutrals[800],
+              border: '1px solid',
+              borderColor: appConfig.theme.colors.neutrals[999],
+              borderRadius: '10px',
+              flex: 1,
+              minHeight: '240px',
+            }}
+          >
+            <Image
               styleSheet={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                maxWidth: '200px',
-                padding: '16px',
-                backgroundColor: appConfig.theme.colors.neutrals[800],
-                border: '1px solid',
-                borderColor: appConfig.theme.colors.neutrals[999],
-                borderRadius: '10px',
-                flex: 1,
-                minHeight: '240px',
+                borderRadius: '50%',
+                marginBottom: '16px',
+              }}
+              src={username.length > 2 && username.length !== null && username.trim() ? `https://github.com/${username}.png` : imagemError}
+            />
+            <Text
+              variant="body4"
+              styleSheet={{
+                color: appConfig.theme.colors.primary[600],
+                backgroundColor: appConfig.theme.colors.neutrals[500],
+                padding: '10px',
+                borderRadius: '5px',
+                fontSize: '15px',
+                marginBottom: '10px'
               }}
             >
-              <Image
-                styleSheet={{
-                  borderRadius: '50%',
-                  marginBottom: '16px',
-                }}
-                src={`https://github.com/${username}.png`}
-              />
-              <Text
-                variant="body4"
-                styleSheet={{
-                  color: appConfig.theme.colors.neutrals[200],
-                  backgroundColor: appConfig.theme.colors.neutrals[900],
-                  padding: '3px 10px',
-                  borderRadius: '1000px',
-                  fontSize: '15px'
-                }}
-              >
-                {username}
-              </Text>
-              <Text
-                variant="body4"
-                styleSheet={{
-                  color: appConfig.theme.colors.neutrals[300]
-                }}
-              >
-                {dados.name}
-              </Text>
-
-
-              <Text
-                variant="body4"
-                styleSheet={{
-                  color: appConfig.theme.colors.neutrals[300]
-                }}
-              >
-                {dados.location}
-              </Text>
-              <a
-                target="_blank"
-                variant="body4"
-                style={{
-                  border: 'solid 1px grey', padding: '0px 5px', borderRadius: '10px', textDecoration: 'none', color: appConfig.theme.colors.neutrals[300], fontSize: '15px', cursor: 'pointer'
-                }}
-                href={dados.html_url}> 
-                IR PARA O GIT!!!
-              </a>
-            </Box>
-          )}
+              {username.length > 2 && username.length !== null && username.trim() ? username : "O campo não possui nem um usuario!"}
+            </Text>
+            <Text
+              variant="body4"
+              styleSheet={{
+                color: appConfig.theme.colors.neutrals[300]
+              }}
+            >
+              {dados.name}
+            </Text>
+            <Text
+              variant="body4"
+              styleSheet={{
+                color: appConfig.theme.colors.neutrals[300]
+              }}
+            >
+              {dados.location}
+            </Text>
+            <Text
+              variant="body4"
+              styleSheet={{
+               margin:'5px', borderBottom: 'solid 1px grey',color: appConfig.theme.colors.neutrals[300]
+              }}
+            >
+             Followers: {dados.followers}
+            </Text>
+            <a
+              target="_blank"
+              variant="body4"
+              style={{
+                border: 'solid 1px grey', padding: '0px 5px', borderRadius: '10px', textDecoration: 'none', color: appConfig.theme.colors.neutrals[300], fontSize: '15px', cursor: 'pointer'
+              }}
+              href={dados.html_url}>
+              IR PARA O GIT
+            </a>
+          </Box>
           {/* Photo Area */}
         </Box>
       </Box>
