@@ -31,7 +31,6 @@ function GlobalStyle() {
 // Esse next custom app não vira uma pagina, mas a vantagem dele é que ele roda em todas as paginas, então aqui fica as funções globais
 // O importante é o nome do arquivo _app.js pro next achar
 export default function MyApp({ Component, pageProps }) {
-    console.log('roda em todas as paginas')
     return (
         <>
             <GlobalStyle />

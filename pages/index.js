@@ -7,8 +7,8 @@ import appConfig from '../config.json';
 // Importando hooks do react:
 
 // Importando o react pra usar os hooks
-import React from 'react';
-// import { useState } from 'react';
+import React, { useEffect } from 'react'
+// import React, { useState } from 'react';
 
 // Importando os roteadores do next, obs: o proprio next faz o roteamento em vez de fazer na unha com o React, o next faz com o React para nos
 import { useRouter } from 'next/router';
@@ -56,7 +56,23 @@ export default function PaginaInicial() {
   // Hook de roteamento: serve para que a pagina não recarregue so mude o que precisa do que esta na outra pagina, e ir empilhando as paginas na barra de navegação do navegador
   const roteamento = useRouter();
 
-  // const [button, setButton] = React.useState("disabled");
+  const [dados, setDados] = React.useState([]);
+
+  useEffect(() => {
+    obterDados()
+  }, [])
+
+  const obterDados = async () => {
+    try {
+      const resultado = await fetch(`https://api.github.com/users/${username}`)
+      const listaDados = await resultado.json()
+
+      setDados(listaDados)
+    } catch(err) {
+      alert('Não foi possivel carregar a API')
+    }
+  }
+
 
   return (
     <>
@@ -88,7 +104,7 @@ export default function PaginaInicial() {
           {/* Formulário */}
           <Box
             as="form"
-            onSubmit={function(infosDoEvento){
+            onSubmit={function (infosDoEvento) {
               infosDoEvento.preventDefault();
               roteamento.push('/chat')
             }}
@@ -105,7 +121,6 @@ export default function PaginaInicial() {
             <TextField
               value={username}
               onChange={function (event) {
-                console.log('usuario digitou', event.target.value)
                 // Onde ta o valor
                 const valor = event.target.value;
                 // trocar o valor da variavel
@@ -121,58 +136,89 @@ export default function PaginaInicial() {
                 },
               }}
             />
-
-            <Button
-              type='submit'
-              label='Entrar'
-              fullWidth
-              buttonColors={{
-                contrastColor: appConfig.theme.colors.neutrals["000"],
-                mainColor: appConfig.theme.colors.primary[500],
-                mainColorLight: appConfig.theme.colors.primary[400],
-                mainColorStrong: appConfig.theme.colors.primary[600],
-              }}
-            />
+            {username.length > 2 && username.length !== null && username.trim() && (
+              <Button
+                type='submit'
+                label='Entrar'
+                fullWidth
+                buttonColors={{
+                  contrastColor: appConfig.theme.colors.neutrals["000"],
+                  mainColor: appConfig.theme.colors.primary[500],
+                  mainColorLight: appConfig.theme.colors.primary[400],
+                  mainColorStrong: appConfig.theme.colors.primary[600],
+                }}
+              />
+            )}
           </Box>
+
           {/* Formulário */}
 
 
           {/* Photo Area */}
-          <Box
-            styleSheet={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              maxWidth: '200px',
-              padding: '16px',
-              backgroundColor: appConfig.theme.colors.neutrals[800],
-              border: '1px solid',
-              borderColor: appConfig.theme.colors.neutrals[999],
-              borderRadius: '10px',
-              flex: 1,
-              minHeight: '240px',
-            }}
-          >
-            <Image
+          {username.length > 2 && username.length !== null && username.trim() && (
+            < Box
               styleSheet={{
-                borderRadius: '50%',
-                marginBottom: '16px',
-              }}
-              src={`https://github.com/${username}.png`}
-            />
-            <Text
-              variant="body4"
-              styleSheet={{
-                color: appConfig.theme.colors.neutrals[200],
-                backgroundColor: appConfig.theme.colors.neutrals[900],
-                padding: '3px 10px',
-                borderRadius: '1000px',
-                fontSize: '15px'
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                maxWidth: '200px',
+                padding: '16px',
+                backgroundColor: appConfig.theme.colors.neutrals[800],
+                border: '1px solid',
+                borderColor: appConfig.theme.colors.neutrals[999],
+                borderRadius: '10px',
+                flex: 1,
+                minHeight: '240px',
               }}
             >
-              {username}
-            </Text>
-          </Box>
+              <Image
+                styleSheet={{
+                  borderRadius: '50%',
+                  marginBottom: '16px',
+                }}
+                src={`https://github.com/${username}.png`}
+              />
+              <Text
+                variant="body4"
+                styleSheet={{
+                  color: appConfig.theme.colors.neutrals[200],
+                  backgroundColor: appConfig.theme.colors.neutrals[900],
+                  padding: '3px 10px',
+                  borderRadius: '1000px',
+                  fontSize: '15px'
+                }}
+              >
+                {username}
+              </Text>
+              <Text
+                variant="body4"
+                styleSheet={{
+                  color: appConfig.theme.colors.neutrals[300]
+                }}
+              >
+                {dados.name}
+              </Text>
+
+
+              <Text
+                variant="body4"
+                styleSheet={{
+                  color: appConfig.theme.colors.neutrals[300]
+                }}
+              >
+                {dados.location}
+              </Text>
+              <a
+                target="_blank"
+                variant="body4"
+                style={{
+                  border: 'solid 1px grey', padding: '0px 5px', borderRadius: '10px', textDecoration: 'none', color: appConfig.theme.colors.neutrals[300], fontSize: '15px', cursor: 'pointer'
+                }}
+                href={dados.html_url}> 
+                IR PARA O GIT!!!
+              </a>
+            </Box>
+          )}
           {/* Photo Area */}
         </Box>
       </Box>
