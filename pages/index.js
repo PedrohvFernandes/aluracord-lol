@@ -56,9 +56,13 @@ export default function PaginaInicial() {
   // Hook de roteamento: serve para que a pagina não recarregue so mude o que precisa do que esta na outra pagina, e ir empilhando as paginas na barra de navegação do navegador
   const roteamento = useRouter();
 
-  const [dados, setDados] = React.useState('');
+  const [dados, setDados] = React.useState([]);
 
-  useEffect( async () => {
+  useEffect(() => {
+    obterDados()
+  }, [])
+
+  const obterDados = async () => {
     try {
       const resultado = await fetch(`https://api.github.com/users/${username}`)
       const listaDados = await resultado.json()
@@ -67,7 +71,7 @@ export default function PaginaInicial() {
     } catch(err) {
       alert('Não foi possivel carregar a API')
     }
-  })
+  }
 
 
   return (
