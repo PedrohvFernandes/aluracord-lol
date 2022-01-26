@@ -8,6 +8,8 @@
 #### Tela do chat -
 ![Thumbnail:](https://github.com/PedrohvFernandes/aluracord-lol/blob/main/Screenshot/aula3.png) 
 
+### Caso queria testar(hospedado na Vercel): aluracord-lol.vercel.app
+
 ## Tecnologias:
 - Next: <img align="center" height="30" src="https://cdn.icon-icons.com/icons2/2148/PNG/512/nextjs_icon_132160.png">
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
