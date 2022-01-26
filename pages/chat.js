@@ -34,14 +34,15 @@ export default function ChatPage() {
         setMensagem('');
     }
 
-    // Aqui ele apaga a mensagem usando filter no MessageList
+    // Aqui ele apaga a mensagem usando filter no MessageList, a exclusão funciona atraves do id da mensagem que tem no array
     function handleDeleteMessage(event) {
         const messageId = Number(event.target.dataset.id)
-        const messageListFiltered = listaDeMensagens.filter((messageFiltered) => {
+        const listaDeMensagemFiltrada = listaDeMensagens.filter((messageFiltered) => {
             return messageFiltered.id != messageId
         })
 
-        setListaDeMensagens(messageListFiltered)
+        // Setando a nova lista filtrada, com uma mensagem a menos
+        setListaDeMensagens(listaDeMensagemFiltrada)
     }
 
     return (
