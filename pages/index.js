@@ -7,7 +7,7 @@ import appConfig from '../config.json';
 // Importando hooks do react:
 
 // Importando o react pra usar os hooks
-import React, { useEffect } from 'react'
+import React from 'react'
 // import React, { useState } from 'react';
 
 // Importando os roteadores do next, obs: o proprio next faz o roteamento em vez de fazer na unha com o React, o next faz com o React para nos
@@ -51,7 +51,7 @@ function Titulo(props) {
 export default function PaginaInicial() {
   // Hook de estado
   //o username é o valor inicial/definido e setUsername ira fazer com que eu consiga inserir um novo digito no campo imput, porque no react é como que cada digito é uma foto é uma atualização, com isso agora eu consigo mudar o valor e a onde tiver a variavel username vai mudar dinamicamente e melhor so muda a onde deve mudar ele não recarrega a pagina toda: gerando perfomace, uma alteração de uma vez so em varios locais
-  const [username, setUsername] = React.useState('PedrohvFernandes');
+  const [username, setUsername] = React.useState('');
 
   // Hook de roteamento: serve para que a pagina não recarregue so mude o que precisa do que esta na outra pagina, e ir empilhando as paginas na barra de navegação do navegador
   const roteamento = useRouter();
@@ -104,6 +104,7 @@ export default function PaginaInicial() {
             </Text>
 
             <TextField
+              placeholder='Digite o nome do usuario...'
               value={username}
               onChange={function (event) {
                 // Onde ta o valor
@@ -172,7 +173,7 @@ export default function PaginaInicial() {
             <Text
               variant="body4"
               styleSheet={{
-                color: appConfig.theme.colors.primary[600],
+                color: appConfig.theme.colors.neutrals[200],
                 backgroundColor: appConfig.theme.colors.neutrals[500],
                 padding: '10px',
                 borderRadius: '5px',
@@ -180,7 +181,7 @@ export default function PaginaInicial() {
                 marginBottom: '10px'
               }}
             >
-              {username.length > 2 && username.length !== null && username.trim() ? username : "O campo não possui nem um usuario!"}
+              {username.length > 2 && username.length !== null && username.trim() ? username : "O campo está vazio!"}
             </Text>
             <Text
               variant="body4"
