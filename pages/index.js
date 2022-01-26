@@ -56,7 +56,7 @@ export default function PaginaInicial() {
   // Hook de roteamento: serve para que a pagina não recarregue so mude o que precisa do que esta na outra pagina, e ir empilhando as paginas na barra de navegação do navegador
   const roteamento = useRouter();
 
-  const [dados, setDados] = React.useState([]);
+  const [dados, setDados] = React.useState('');
 
   useEffect( async () => {
     try {
