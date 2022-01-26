@@ -3,10 +3,10 @@
 
 ### Feito com Next/React:
 #### Tela inicial -
-![Thumbnail:](https://github.com/PedrohvFernandes/aluracord-lol/blob/main/Screenshot/2%20aula.png)
+![Thumbnail:](https://github.com/PedrohvFernandes/aluracord-lol/blob/main/Screenshot/aula2.png)
 
 #### Tela do chat -
-![Thumbnail:](https://lh6.googleusercontent.com/Bu-pRqU_tWZV7O3rJ5nV1P6NjqFnnAs8kVLC5VGz_Kf7ws0nDUXoGTc7pP87tyUCfu8VyXi0YviIm7CxAISDr2lJSwWwXQxxz98qxVfMcKTJfLPqbcfhn-QEeOowjrlwX1LYDFJN) 
+![Thumbnail:](https://github.com/PedrohvFernandes/aluracord-lol/blob/main/Screenshot/aula3.png) 
 
 ## Tecnologias:
 - Next: <img align="center" height="30" src="https://cdn.icon-icons.com/icons2/2148/PNG/512/nextjs_icon_132160.png">
