@@ -58,11 +58,7 @@ export default function PaginaInicial() {
 
   const [dados, setDados] = React.useState([]);
 
-  useEffect(() => {
-    obterDados()
-  }, [])
-
-  const obterDados = async () => {
+  useEffect( async () => {
     try {
       const resultado = await fetch(`https://api.github.com/users/${username}`)
       const listaDados = await resultado.json()
@@ -71,7 +67,7 @@ export default function PaginaInicial() {
     } catch(err) {
       alert('Não foi possivel carregar a API')
     }
-  }
+  })
 
 
   return (
