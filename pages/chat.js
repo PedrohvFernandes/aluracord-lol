@@ -70,7 +70,7 @@ export default function ChatPage() {
                     borderRadius: '5px',
                     backgroundColor: appConfig.theme.colors.neutrals[700],
                     height: '100%',
-                    maxWidth: '55%',
+                    maxWidth: '95%',
                     maxHeight: '95vh',
                     padding: '32px',
 
@@ -132,7 +132,7 @@ export default function ChatPage() {
                                 border: '0',
                                 resize: 'none',
                                 borderRadius: '5px',
-                                padding: '6px 8px',
+                                padding: '5px 5px',
                                 backgroundColor: appConfig.theme.colors.neutrals[800],
                                 marginRight: '12px',
                                 color: appConfig.theme.colors.neutrals[200],
