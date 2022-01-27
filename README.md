@@ -19,6 +19,7 @@
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 - CSS in JS
 - Flexbox
+- Supabase
 
 ## 👨‍💻 Autor
 - Linkedin: https://www.linkedin.com/in/pedro-henrique-vieira-fernandes
