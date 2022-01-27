@@ -1,7 +1,7 @@
 //Componente que vai resetar todo o estilo da pagina, por isso o nome global
 function GlobalStyle() {
-    return (
-        <style global jsx>{`
+  return (
+    <style global jsx>{`
         * {
           margin: 0;
           padding: 0;
@@ -24,17 +24,40 @@ function GlobalStyle() {
           flex: 1;
         }
         /* ./App fit Height */ 
+        
+        ::-webkit-scrollbar {
+          width: 10px;
+          background-color: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+          border-radius: 5px;
+          background-color: #52667A;
+        }
+        ::-webkit-scrollbar-track {
+          border-radius: 5px;
+          background-color: #080A0C;
+        }
+
+      .load {
+          animation: rotation .5s linear infinite; 
+      }
+      @keyframes rotation {
+          to {
+              transform: rotate(90deg);
+          }
+      }
+
       `}</style>
-    );
+  );
 }
 
 // Esse next custom app não vira uma pagina, mas a vantagem dele é que ele roda em todas as paginas, então aqui fica as funções globais
 // O importante é o nome do arquivo _app.js pro next achar
 export default function MyApp({ Component, pageProps }) {
-    return (
-        <>
-            <GlobalStyle />
-            <Component {...pageProps} />
-        </>
-    )
+  return (
+    <>
+      <GlobalStyle />
+      <Component {...pageProps} />
+    </>
+  )
 }

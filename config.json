@@ -1,5 +1,6 @@
 {
     "name": "Lolcord - LeagueOfLegends",
+    "username": "pedrohvfernandes",
     "theme": {
         "colors": {
             "primary": {
@@ -12,7 +13,8 @@
                 "600": "#00CAE0",
                 "700": "#00B8CC",
                 "800": "#00A5B8",
-                "900": "#0093A3"
+                "900": "#0093A3",
+                "1000":"rgb( 223, 184, 122)"
             },
             "neutrals": {
                 "000": "#FFFFFF",

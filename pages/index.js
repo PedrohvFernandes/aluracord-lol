@@ -13,8 +13,6 @@ import React from 'react'
 // Importando os roteadores do next, obs: o proprio next faz o roteamento em vez de fazer na unha com o React, o next faz com o React para nos
 import { useRouter } from 'next/router';
 
-
-
 // Componente titulo
 // O props pega todas as propriedades do componente, por exemplo o filho dele(o titulo) e a tag
 function Titulo(props) {
@@ -89,8 +87,10 @@ export default function PaginaInicial() {
           {/* Formulário */}
           <Box
             as="form"
+            //forms, o onSubmit faz o rotemento usando o hook do next e ja seta o usuario 
             onSubmit={function (infosDoEvento) {
               infosDoEvento.preventDefault();
+              appConfig.username = username
               roteamento.push('/chat')
             }}
             styleSheet={{
@@ -98,6 +98,13 @@ export default function PaginaInicial() {
               width: { xs: '100%', sm: '50%' }, textAlign: 'center', marginBottom: '32px',
             }}
           >
+            <Image
+              src='https://preview.redd.it/iiyq7332zd811.png?auto=webp&s=13c8d0c08dd97f1a256cba0d0347bfd07950b3bf'
+              styleSheet={{
+                maxWidth: '150px',
+                maxHeight: '150px'
+              }}
+            />
             <Titulo tag="h1">BEM VINDOS A SUMMONERS RIFT!</Titulo>
             <Text variant="body3" styleSheet={{ fontFamily: 'friz quadrata bold', marginBottom: '32px', color: appConfig.theme.colors.neutrals[300] }}>
               {appConfig.name} ({username})
@@ -112,10 +119,10 @@ export default function PaginaInicial() {
                 // trocar o valor da variavel
                 setUsername(valor);
                 fetch(`https://api.github.com/users/${valor}`)
-                .then(response => response.json())
-                .then(data => {
-                  setDados(data)
-                })
+                  .then(response => response.json())
+                  .then(data => {
+                    setDados(data)
+                  })
               }}
               fullWidth
               textFieldColors={{
@@ -163,6 +170,7 @@ export default function PaginaInicial() {
               minHeight: '240px',
             }}
           >
+
             <Image
               styleSheet={{
                 borderRadius: '50%',
@@ -202,10 +210,10 @@ export default function PaginaInicial() {
             <Text
               variant="body4"
               styleSheet={{
-               margin:'5px', borderBottom: 'solid 1px grey',color: appConfig.theme.colors.neutrals[300]
+                margin: '5px', borderBottom: 'solid 1px grey', color: appConfig.theme.colors.neutrals[300]
               }}
             >
-             Followers: {dados.followers}
+              Followers: {dados.followers}
             </Text>
             <a
               target="_blank"
