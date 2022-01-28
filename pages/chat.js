@@ -22,6 +22,7 @@ export default function ChatPage() {
 
     const [loading, setLoading] = React.useState(false);
 
+    // Esse metodo serve pra a gente ver as mensagens em tempo real, ele so é assionado quando da o insert(INSERT) e ai ele faz algo, no caso mostrar a menasgem em tempo real. Então toda vez que essa função recebe um valor que é quando alguem deu um insert no banco de dados no caso esse insert é a mensagem composta(objeto: de e texto, já o id é feito no servidor) que foi feita pelo metodo handleNovaMensagem(pelo enter ou botão enviar), e quando essa mensagem composta é recebida pelo servidor atraves do insert, ele retorna pro metodo escuta mensagens(que so funciona(on) quando alguem da INSERT) acionando o useEffect e la ele seta essa nova mensagem com as mensagens antigas fazendo aparecer em tempo real. Então o useEffect so vai rodar agora caso a pessoa atualize novamente a pagina setando todas as mensagens do banco de dados pro array em memoria(listaDeMensagen) para aparecer aqui na tela e no momento que alguem envia uma mensagem pro banco de dados(insert), aciona a função escuta mensagens que é chamada no useEffect assim setando uma nova mensagem no array(listaDeMensagens) em memoria para aparecer na tela em tempo real
     function escutaMensagensEmTempoReal(adicionaMensagem) {
         return supabaseClient
             .from('mensagens')
@@ -32,7 +33,8 @@ export default function ChatPage() {
     }
 
     // useEffect é para lidar com as coisas que fogem do fluxo padrão do componente. fluxo padrão  -> execução. Ter todos os valores na mão que bota no meio do return ele aparece, agora se o dado precisa vim de um servidor externo(precisa demorar um pouco pra acontecer) ele não faz parte do fluxo padrão, ele é um efeito colateral(uma coisa extra)
-    //Isolado no useEffect: O efeito de bater no servidor, etc ta dentro do useEffect, então não vai ser toda vez que vai renderizar o chat page, porque agora esta dentro de algo que so renderiza em certos momentos, esses momentos são: na hora que a pagina carrega(padrão) e quando a lista de mensagens atualizar, então essa função so vai bater/requisitar o servidor quando carregar a pagina e quando a lista de mensagens atualizar. Obs: o listaDeMensagens dentro do array é para isso mesmo, pra falar que é so pra bater no servidor quando a lista de mensagem atualizar(mudar) porque o useEffect vai observar as mudanças do listaDeMensagens, com isso não vai rodar varias vezes, somente quando mudar
+    //Isolado no useEffect: O efeito de bater no servidor, etc ta dentro do useEffect, então não vai ser toda vez que vai renderizar o chat page, porque agora esta dentro de algo que so renderiza em certos momentos, esses momentos são: na hora que a pagina carrega(padrão) e quando a lista de mensagens atualizar, então essa função so vai bater/requisitar o servidor quando carregar a pagina e quando a lista de mensagens atualizar. Obs: o listaDeMensagens dentro do array é para isso mesmo, pra falar que é so pra bater no servidor quando a lista de mensagem atualizar(mudar) porque o useEffect vai observar as mudanças do listaDeMensagens, com isso não vai rodar varias vezes, somente quando mudar.
+    // OBS: Antes tinha o listaDeMensagens no array do useEffect, mas como agora a gente usa um metodo pra escutar mensagens em tempo real pra atualizar a tela então não é preciso que o useEffect funcione quando a listaDeMensagens mudar, e sim quando enviamos a mensagem pro servidor que do servidor a gente seta pra lista de mensagens e se a gente tivesse colocado a listaDeMensagens no array do useEffect ela iria atualizar a listaDeMensagens duas vezes no array, tanto que da um warning e acaba que fala que ja existe a mesma mensagem na tela com a mesma Key
     React.useEffect(() => {
         // Usando a biblioteca do supabase, em vez de fazer na unha com o fetch, pra capturar as mensagens no servidor
         // Com o ponto from a gente passa o nome da tabela que foi criada no supabase, o select é o que a gente quer pegar, no caso tudo 
@@ -46,6 +48,7 @@ export default function ChatPage() {
                 setLoading(true);
             });
 
+        // Chmando o metodo escuta mensagem pra ver as mensagens em tempo real sem precisar de atualizar a pagina
         escutaMensagensEmTempoReal((novaMensagem) => {
             // Quero reusar um valor de referencia (objeto/array) 
             // Passar uma função pro setState
@@ -61,7 +64,7 @@ export default function ChatPage() {
                 ]
             });
         });
-    }, [listaDeMensagens]);
+    }, []);
 
     /*
     // Usuário
@@ -94,6 +97,7 @@ export default function ChatPage() {
                     mensagemComposta
                 ])
                 .then(({ data }) => {
+                    // AQUI NÃO FAZ MAIS O SET NA LISTA DE MENSGANES, SO DA INSERT NO BANCO DE DADOS, ELE ESTA DANDO SET NA LISTA DE MENSAGENS PELO ESCUTA MENSAGENS para aparecer elas em tempo real
                     // setListaDeMensagens([
                     //     // mensagemComposta,
                     //     // A gente não da set na lista com o objeto mensagem composta direto do codigo, a mensagem agora é data(dado) da posição 0 que tem todas as informações
