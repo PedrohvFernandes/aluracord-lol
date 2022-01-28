@@ -26,7 +26,7 @@ function GlobalStyle() {
         /* ./App fit Height */ 
         
         ::-webkit-scrollbar {
-          width: 10px;
+          width: 5px;
           background-color: transparent;
         }
         ::-webkit-scrollbar-thumb {
@@ -37,10 +37,7 @@ function GlobalStyle() {
           border-radius: 5px;
           background-color: #080A0C;
         }
-
-      .load {
-          animation: rotation .5s linear infinite; 
-      }
+        
       @keyframes rotation {
           to {
               transform: rotate(90deg);

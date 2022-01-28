@@ -99,26 +99,46 @@ export default function ChatPage() {
         }
     }
 
-    if (loading === false) {
+    function LoadingComponent() {
         return (
             <>
                 <Box
                     styleSheet={{
                         display: 'flex',
+                        flexDirection: 'column',
                         alignItems: 'center',
                         justifyContent: 'center',
+                        height: '100%'
                     }}
                 >
-                    <img className='load' src='https://vignette.wikia.nocookie.net/leagueoflegends/images/e/e4/LoL_Facebook_Icon_14.gif/revision/latest?cb=20161029213743' />
+                    <Image
+                        styleSheet={{
+                            animation: 'rotation .5s linear infinite',
+                        }}
+                        src='https://vignette.wikia.nocookie.net/leagueoflegends/images/e/e4/LoL_Facebook_Icon_14.gif/revision/latest?cb=20161029213743'
+                    />
+                    <Text
+                        styleSheet={{
+                            fontSize: '25px',
+                            maxWidth: '300px',
+                            textAlign: 'center',
+                            color: appConfig.theme.colors.primary[1000],
+                            boxShadow: '0 0 5em rgb( 223, 184, 122)'
+                        }}
+                    >
+                        Carregando o chat...
+                    </Text>
+
                 </Box>
             </>
         )
     }
+
     return (
         <Box
             styleSheet={{
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                backgroundColor: appConfig.theme.colors.primary[500],
+                backgroundColor: appConfig.theme.colors.secondary[500],
                 backgroundImage: `url(https://images2.alphacoders.com/108/thumb-1920-1083864.png)`,
                 backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundBlendMode: 'multiply',
                 color: appConfig.theme.colors.neutrals['000'],
@@ -156,7 +176,8 @@ export default function ChatPage() {
                     {/* Com o messagelist a gente separa os dados da mensagem, pra não dar erro ao enviar a mensagem, pois a mensagem é um objeto a onde ela esta armazenada no listaDeMensagens
                     mensagens(so um nome aleatorio) recebe a lista de mensagens que atraves do props a gente consegue manipular, mesma coisa pro deleteMessage
                     */}
-                    <MessageList mensagens={listaDeMensagens} deleteMessage={handleDeleteMessage} />
+                    {loading === true ? <MessageList mensagens={listaDeMensagens} deleteMessage={handleDeleteMessage} />
+                        : <LoadingComponent />}
 
                     {/* Map serve pra mapear as mensagens na lista de mensagens que serve de entrada pra uma nova saida padronizada*/}
                     {/* {listaDeMensagens.map((mensagemAtual) => {
@@ -201,6 +222,7 @@ export default function ChatPage() {
                                 fontSize: '18px'
                             }}
                         />
+
                         <Button
                             label='Enviar'
                             styleSheet={{
@@ -229,7 +251,14 @@ export default function ChatPage() {
 function Header() {
     return (
         <>
-            <Box styleSheet={{ width: '100%', marginBottom: '16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }} >
+            <Box styleSheet={{
+                width: '100%',
+                marginBottom: '16px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between'
+            }}
+            >
                 <Text
                     variant='heading5'
                     styleSheet={{
@@ -245,6 +274,7 @@ function Header() {
                         borderRadius: '50%',
                         display: 'inline-block',
                         marginRight: '5px',
+                        marginLeft: '5px',
                         border: '1px solid rgb( 223, 184, 122)'
                     }}
                     src={`https://github.com/${appConfig.username}.png`}
@@ -259,7 +289,7 @@ function Header() {
                 </Text>
                 <Button
                     variant='tertiary'
-                    label='Sair do chat'
+                    label='Sair'
                     href="/"
                     styleSheet={{
                         color: appConfig.theme.colors.primary[1000],
@@ -371,7 +401,9 @@ function MessageList(props) {
                         </Box>
                         <Text
                             styleSheet={{
-                                borderBottom: '1px solid rgb( 223, 184, 122)',
+                                hover: {
+                                    borderBottom: '1px solid rgb( 223, 184, 122)',
+                                }
                             }}>
                             {mensagem.texto}
                         </Text>

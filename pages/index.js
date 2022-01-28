@@ -63,7 +63,7 @@ export default function PaginaInicial() {
       <Box
         styleSheet={{
           display: 'flex', alignItems: 'center', justifyContent: 'center',
-          backgroundColor: appConfig.theme.colors.primary[500],
+          backgroundColor: appConfig.theme.colors.secondary[500],
           backgroundImage: 'url(https://cdn1.epicgames.com/salesEvent/salesEvent/EGS_LeagueofLegends_RiotGames_S1_2560x1440-ee500721c06da3ec1e5535a88588c77f)',
           backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundBlendMode: 'multiply',
         }}
@@ -78,7 +78,7 @@ export default function PaginaInicial() {
               sm: 'row',
             },
             width: '100%', maxWidth: '700px',
-            height: '100%', maxHeight: '500px',
+            height: 'auto', maxHeight: '850px',
             borderRadius: '5px', padding: '32px', margin: '16px',
             boxShadow: ' 0 0 5em rgb( 223, 184, 122)',
             backgroundColor: appConfig.theme.colors.neutrals[700],
@@ -140,11 +140,17 @@ export default function PaginaInicial() {
                 label='Entrar'
                 fullWidth
                 buttonColors={{
-                  contrastColor: appConfig.theme.colors.neutrals["000"],
-                  mainColor: appConfig.theme.colors.primary[500],
-                  mainColorLight: appConfig.theme.colors.primary[400],
-                  mainColorStrong: appConfig.theme.colors.primary[600],
-                }}
+                  contrastColor: appConfig.theme.colors.primary[1000],
+                  mainColor: appConfig.theme.colors.primary["000"],
+                  mainColorLight: appConfig.theme.colors.neutrals[800],
+                  mainColorStrong: appConfig.theme.colors.neutrals[800],
+              }}
+                styleSheet={{
+                  color: appConfig.theme.colors.primary[1000],
+                  hover: {
+                      boxShadow: ' 0 0 2em rgb( 223, 184, 122)',
+                  }
+              }}
               />
             )}
           </Box>
@@ -167,7 +173,7 @@ export default function PaginaInicial() {
               borderColor: appConfig.theme.colors.neutrals[999],
               borderRadius: '10px',
               flex: 1,
-              minHeight: '240px',
+              minHeight: 'auto',
             }}
           >
 
