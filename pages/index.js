@@ -200,18 +200,20 @@ export default function PaginaInicial() {
             <Text
               variant="body4"
               styleSheet={{
+                margin: '5px',
                 color: appConfig.theme.colors.neutrals[300]
               }}
             >
-              {dados.name}
+             Nome: {dados.name}
             </Text>
             <Text
               variant="body4"
               styleSheet={{
+                margin: '5px',
                 color: appConfig.theme.colors.neutrals[300]
               }}
             >
-              {dados.location}
+             Local: {dados.location}
             </Text>
             <Text
               variant="body4"
@@ -219,7 +221,7 @@ export default function PaginaInicial() {
                 margin: '5px', borderBottom: 'solid 1px grey', color: appConfig.theme.colors.neutrals[300]
               }}
             >
-              Followers: {dados.followers}
+              Seguidores: {dados.followers}
             </Text>
             <a
               target="_blank"

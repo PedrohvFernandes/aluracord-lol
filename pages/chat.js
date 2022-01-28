@@ -4,6 +4,8 @@ import appConfig from '../config.json';
 // lib(biblioteca) do supabase: Nosso back-end vai ser o supabase. Obs: a lib do supabase é feita com Typescript, ela facilita o trabalho da API supabase
 import { createClient } from '@supabase/supabase-js';
 
+import { ButtonSendSticker } from '../src/componentes/ButtonSendSticker'
+
 // Chave da API supabase(nosso Backend as a Service ) NUNCA MOSTRAR CHAVES DE API
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTY0MzI5NzUwMywiZXhwIjoxOTU4ODczNTAzfQ.5KbBTLrxHcWIK0Npw1NRuYfmhL06jG-o5NeF2pslUDE';
 // Link do meu back-end
@@ -20,12 +22,21 @@ export default function ChatPage() {
 
     const [loading, setLoading] = React.useState(false);
 
+    function escutaMensagensEmTempoReal(adicionaMensagem) {
+        return supabaseClient
+            .from('mensagens')
+            .on('INSERT', (respostaLive) => {
+                adicionaMensagem(respostaLive.new);
+            })
+            .subscribe();
+    }
+
     // useEffect é para lidar com as coisas que fogem do fluxo padrão do componente. fluxo padrão  -> execução. Ter todos os valores na mão que bota no meio do return ele aparece, agora se o dado precisa vim de um servidor externo(precisa demorar um pouco pra acontecer) ele não faz parte do fluxo padrão, ele é um efeito colateral(uma coisa extra)
     //Isolado no useEffect: O efeito de bater no servidor, etc ta dentro do useEffect, então não vai ser toda vez que vai renderizar o chat page, porque agora esta dentro de algo que so renderiza em certos momentos, esses momentos são: na hora que a pagina carrega(padrão) e quando a lista de mensagens atualizar, então essa função so vai bater/requisitar o servidor quando carregar a pagina e quando a lista de mensagens atualizar. Obs: o listaDeMensagens dentro do array é para isso mesmo, pra falar que é so pra bater no servidor quando a lista de mensagem atualizar(mudar) porque o useEffect vai observar as mudanças do listaDeMensagens, com isso não vai rodar varias vezes, somente quando mudar
     React.useEffect(() => {
         // Usando a biblioteca do supabase, em vez de fazer na unha com o fetch, pra capturar as mensagens no servidor
         // Com o ponto from a gente passa o nome da tabela que foi criada no supabase, o select é o que a gente quer pegar, no caso tudo 
-        const dadosDoSupabase = supabaseClient
+        supabaseClient
             .from('mensagens')
             .select('*')
             .order('id', { ascending: false })
@@ -34,6 +45,22 @@ export default function ChatPage() {
                 setListaDeMensagens(data);
                 setLoading(true);
             });
+
+        escutaMensagensEmTempoReal((novaMensagem) => {
+            // Quero reusar um valor de referencia (objeto/array) 
+            // Passar uma função pro setState
+
+            // setListaDeMensagens([
+            //     novaMensagem,
+            //     ...listaDeMensagens
+            // ])
+            setListaDeMensagens((valorAtualDaLista) => {
+                return [
+                    novaMensagem,
+                    ...valorAtualDaLista,
+                ]
+            });
+        });
     }, [listaDeMensagens]);
 
     /*
@@ -67,13 +94,13 @@ export default function ChatPage() {
                     mensagemComposta
                 ])
                 .then(({ data }) => {
-                    setListaDeMensagens([
-                        // mensagemComposta,
-                        // A gente não da set na lista com o metodo mensagem composta direto do codigo, a mensagem agora é da data da posição 0 que tem todas as informações
-                        data[0],
-                        //pega o data com o restante das mensagens... -> PEGA TODOS OS ITENS QUE JA TEM DENTRO DA LISTA E ESPALHA DENTRO DA LISTA NOVA E O DA MENSAGEM
-                        ...listaDeMensagens,
-                    ]);
+                    // setListaDeMensagens([
+                    //     // mensagemComposta,
+                    //     // A gente não da set na lista com o objeto mensagem composta direto do codigo, a mensagem agora é data(dado) da posição 0 que tem todas as informações
+                    //     data[0],
+                    //     //pega o data com o restante das mensagens... -> PEGA TODOS OS ITENS QUE JA TEM DENTRO DA LISTA E ESPALHA DENTRO DA LISTA NOVA E O DA MENSAGEM
+                    //     ...listaDeMensagens,
+                    // ]);
 
                 });
             setMensagem('');
@@ -240,6 +267,17 @@ export default function ChatPage() {
                             }}
                             onClick={() => handleNovaMensagem(mensagem)}
                         />
+                        {/* isso é Callback, igual do fetch, .then, o callback é sempre uma chamada de retorno, ou seja quando alguma coisa que voce queria terminou ele executa a função que voce passou*/}
+                        {/* onStickerClick -> não é padrão do js, e sim de quem criou o componente, diferente de eventos padrões do js(ex:onClick) e muitos componentes react vão ter isso. Isso é chamado de interceptação que é voce poder desprover pra alguem que ta usando o seu componente a pessoa não precisar saber do codigo do componente em si pra voce poder usar algo desse componente e que essa coisa vai estar configurando dentro do componente como uma prop que esse componente vai receber e no onClick que vai estar no componente em si ele executa o comando, nesse caso é passando o sticker que a gente esta trbalhando*/}
+                        {/* execução: primeiro ele roda o codigo que chama a função que esta dentro do componente e mostra o sticker e depois quem usa o componente no caso a pagina principal que salva esse sticker no banco, então quem ta usando ele recebe o sticker de dentro do componente, ou seja a gente passa o onStickerClick o componente recebe no props, registra no onClick pra que toda vez que alguem clickar em um sticker ele executa a função que se tiver a propriedade do stickerClick  ele chama essa função que foi passada passando um sticker na função dentro do componente*/}
+                        {/* Obs: o sticker é renderizado no mensageList com o if de operador ternario e o sticker é enviando como texto pro serivdor:
+                        :sticker: URL_Do_Sticker */}
+                        <ButtonSendSticker
+                            onStickerClick={(sticker) => {
+                                // console.log('[usando o componente] salva esse sticker no banco', sticker)
+                                handleNovaMensagem(':sticker: ' + sticker)
+                            }}
+                        />
                     </Box>
                 </Box>
             </Box>
@@ -275,10 +313,17 @@ function Header() {
                         display: 'inline-block',
                         marginRight: '5px',
                         marginLeft: '5px',
-                        border: '1px solid rgb( 223, 184, 122)'
+                        border: '1px solid rgb( 223, 184, 122)',
+                        transition: 'all 0.2s ease-in',
+                        hover: {
+                            transition: 'all 0.2s ease-in',
+                            width: '50px',
+                            height: '50px',
+                        }
                     }}
                     src={`https://github.com/${appConfig.username}.png`}
                 />
+
                 <Text
                     styleSheet={{
                         fontSize: '20px',
@@ -343,21 +388,38 @@ function MessageList(props) {
                             }
                         }}
                     >
+
                         <Box
                             styleSheet={{
                                 marginBottom: '8px',
                             }}
                         >
-                            <Image
-                                styleSheet={{
-                                    width: '30px',
-                                    height: '30px',
-                                    borderRadius: '50%',
-                                    display: 'inline-block',
-                                    marginRight: '8px',
+                            <a
+                                target="_blank"
+                                variant="body4"
+                                style={{
+                                    textDecoration: 'none',
+                                    cursor: 'pointer',
+                                    height: '45px',
                                 }}
-                                src={`https://github.com/${mensagem.de}.png`}
-                            />
+                                href={`https://github.com/${mensagem.de}`}>
+                                <Image
+                                    styleSheet={{
+                                        width: '30px',
+                                        height: '30px',
+                                        borderRadius: '50%',
+                                        display: 'inline-block',
+                                        marginRight: '8px',
+                                        transition: 'all 0.2s ease-in-out',
+                                        hover: {
+                                            width: '45px',
+                                            height: '45px',
+                                            transition: 'all 0.2s ease-in-out',
+                                        }
+                                    }}
+                                    src={`https://github.com/${mensagem.de}.png`}
+                                />
+                            </a>
                             <Text
                                 tag="strong"
                             >
@@ -388,9 +450,11 @@ function MessageList(props) {
                                     alignItems: 'center',
                                     justifyContent: 'center',
                                     cursor: 'pointer',
+                                    transition: 'all 0.2s ease-in-out',
                                     hover: {
                                         backgroundColor: appConfig.theme.colors.neutrals[800],
                                         boxShadow: ' 0 0 2em rgb( 223, 184, 122)',
+                                        transition: 'all 0.2s ease-in-out',
                                     }
                                 }}
                                 tag="span"
@@ -399,14 +463,26 @@ function MessageList(props) {
                                 X
                             </Text>
                         </Box>
-                        <Text
-                            styleSheet={{
-                                hover: {
-                                    borderBottom: '1px solid rgb( 223, 184, 122)',
-                                }
-                            }}>
-                            {mensagem.texto}
-                        </Text>
+                        {/* Modo Declarativo, ou seja a gente declara o que a gente quer que retorne, ja no outro if a gente da ordem pra retorna que é o if padrão se acontecer isso injeta isso nesse pedaço aqui, ja essse é o if operador ternario a onde a gente so descreve(declarativo) se for assim na hora que tiver renderizando*/}
+                        {mensagem.texto.startsWith(':sticker:')
+                            ? (
+                                <Image
+                                    styleSheet={{
+                                        width: '200px',
+                                    }}
+                                    src={mensagem.texto.replace(':sticker:', '')} />
+                            )
+                            : (
+                                <Text
+                                    styleSheet={{
+                                        hover: {
+                                            borderBottom: '1px solid rgb( 223, 184, 122)',
+                                        }
+                                    }}>
+                                    {mensagem.texto}
+                                </Text>
+                            )}
+
                     </Text>
                 );
             })}
