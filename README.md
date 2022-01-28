@@ -3,10 +3,10 @@
 
 ### Feito com Next/React:
 #### Tela inicial -
-![Thumbnail:](https://github.com/PedrohvFernandes/aluracord-lol/blob/main/Screenshot/aula2.png)
+![Thumbnail:](https://github.com/PedrohvFernandes/aluracord-lol/blob/main/Screenshot/Tela%20inicial.png?raw=true)
 
 #### Tela do chat -
-![Thumbnail:](https://github.com/PedrohvFernandes/aluracord-lol/blob/main/Screenshot/aula3.png) 
+![Thumbnail:](https://github.com/PedrohvFernandes/aluracord-lol/blob/main/Screenshot/Tela%20do%20chat.png) 
 
 ### Caso queria testar(hospedado na Vercel): aluracord-lol.vercel.app
 
