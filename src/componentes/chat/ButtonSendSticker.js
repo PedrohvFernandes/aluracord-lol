@@ -1,9 +1,38 @@
 import React from 'react';
 import { Box, Button, Text, Image } from '@skynexui/components';
-import appConfig from '../../config.json';
+import appConfig from '../../../config.json';
 
 export function ButtonSendSticker(props) {
   const [isOpen, setOpenState] = React.useState('');
+
+  const [carinha, setCarinha] = React.useState();
+
+
+  React.useEffect(() => {
+    const carinhas = {
+      1: '🙂',
+      2: '😙',
+      3: '🤩',
+      4: '☹️',
+      5: '😣',
+      6: '🤯',
+      7: '👍',
+      8: '👩‍💻',
+      9: '👨‍💻',
+      10:'🧑‍🚀',
+      11:'👨‍🚀',
+      12:'🧑‍💻',
+      13:'👀',
+      14:'👏',
+      15:'😎'
+    };
+    const randomCarinhas = Math.floor(Math.random() * (15 - 1) + 1);
+
+    const trocaCarinhas = carinhas[randomCarinhas];
+    setCarinha(trocaCarinhas)
+
+  }, []);
+
 
   return (
     <Box
@@ -15,8 +44,8 @@ export function ButtonSendSticker(props) {
         styleSheet={{
           borderRadius: '50%',
           padding: '0 3px 0 0',
-          minWidth: '50px',
-          minHeight: '50px',
+          minWidth: '60px',
+          minHeight: '60px',
           fontSize: '20px',
           marginBottom: '8px',
           lineHeight: '0',
@@ -25,7 +54,7 @@ export function ButtonSendSticker(props) {
           justifyContent: 'center',
           backgroundColor: appConfig.theme.colors.neutrals['000'],
           filter: isOpen ? 'grayscale(0)' : 'grayscale(1)',
-          margin:'5px',
+          margin: '5px',
           hover: {
             filter: 'grayscale(0)',
             boxShadow: ' 0 0 2em rgb( 223, 184, 122)',
@@ -36,9 +65,33 @@ export function ButtonSendSticker(props) {
           mainColor: appConfig.theme.colors.primary["000"],
           mainColorLight: appConfig.theme.colors.neutrals[800],
           mainColorStrong: appConfig.theme.colors.neutrals[800],
-      }}
-        label="😋"
-        onClick={() => setOpenState(!isOpen)}
+        }}
+        label={carinha}
+        onClick={() => {
+          const randomCarinhas = Math.floor(Math.random() * (15 - 1) + 1);       
+          const carinhas = {
+            1: '🙂',
+            2: '😙',
+            3: '🤩',
+            4: '☹️',
+            5: '😣',
+            6: '🤯',
+            7: '👍',
+            8: '👩‍💻',
+            9: '👨‍💻',
+            10:'🧑‍🚀',
+            11:'👨‍🚀',
+            12:'🧑‍💻',
+            13:'👀',
+            14:'👏',
+            15:'😎',
+          };
+          const trocaCarinhas = carinhas[randomCarinhas];
+          setCarinha(trocaCarinhas)
+          setOpenState(!isOpen)
+        }
+        }
+
       />
       {isOpen && (
         <Box
@@ -53,7 +106,7 @@ export function ButtonSendSticker(props) {
               sm: '290px',
             },
             height: '300px',
-            right: '30px',
+            right: '50px',
             bottom: '30px',
             padding: '16px',
             boxShadow: 'rgba(4, 4, 5, 0.15) 0px 0px 0px 1px, rgba(0, 0, 0, 0.24) 0px 8px 16px 0px',
@@ -76,7 +129,8 @@ export function ButtonSendSticker(props) {
               justifyContent: 'space-between',
               flex: 1,
               paddingTop: '16px',
-              overflow: 'scroll',
+              overflowY: 'auto',
+              cursor: 'pointer'
             }}
           >
             {appConfig.stickers.map((sticker) => (

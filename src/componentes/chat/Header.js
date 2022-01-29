@@ -1,0 +1,73 @@
+import React from 'react';
+import { Box, Button, Text, Image } from '@skynexui/components';
+import appConfig from '../../../config.json';
+
+// Componente header feito por nos e não pela @skynexui/components
+export function Header() {
+    return (
+        <>
+            <Box styleSheet={{
+                width: '100%',
+                marginBottom: '16px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between'
+            }}
+            >
+                <Text
+                    variant='heading5'
+                    styleSheet={{
+                        color: appConfig.theme.colors.primary[1000],
+                    }}
+                >
+                    Chat
+                </Text>
+                <Image
+                    styleSheet={{
+                        width: '40px',
+                        height: '40px',
+                        borderRadius: '50%',
+                        display: 'inline-block',
+                        marginRight: '5px',
+                        marginLeft: '5px',
+                        border: '1px solid rgb( 223, 184, 122)',
+                        transition: 'all 0.2s ease-in',
+                        hover: {
+                            transition: 'all 0.2s ease-in',
+                            width: '50px',
+                            height: '50px',
+                        }
+                    }}
+                    src={`https://github.com/${appConfig.username}.png`}
+                />
+
+                <Text
+                    styleSheet={{
+                        fontSize: '20px',
+                        borderBottom: '1px solid rgb( 223, 184, 122)'
+                    }}
+                >
+                    {appConfig.username}
+                </Text>
+                <Button
+                    variant='tertiary'
+                    label='Sair'
+                    href="/"
+                    styleSheet={{
+                        color: appConfig.theme.colors.primary[1000],
+                        hover: {
+                            boxShadow: ' 0 0 2em rgb( 223, 184, 122)',
+                        }
+                    }}
+                    buttonColors={{
+                        contrastColor: appConfig.theme.colors.primary[1000],
+                        mainColor: appConfig.theme.colors.primary["000"],
+                        mainColorLight: appConfig.theme.colors.neutrals[800],
+                        mainColorStrong: appConfig.theme.colors.neutrals[800],
+                    }}
+
+                />
+            </Box>
+        </>
+    )
+}

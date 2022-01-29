@@ -38,9 +38,9 @@ function GlobalStyle() {
           background-color: #080A0C;
         }
         
-      @keyframes rotation {
+      @keyframes rotate {
           to {
-              transform: rotate(90deg);
+              transform: rotate(1turn);
           }
       }
 

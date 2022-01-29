@@ -1,18 +1,25 @@
-import { Box, Text, TextField, Image, Button } from '@skynexui/components';
+import { Box, TextField, Button } from '@skynexui/components';
 import React from 'react';
 import appConfig from '../config.json';
-// lib(biblioteca) do supabase: Nosso back-end vai ser o supabase. Obs: a lib do supabase é feita com Typescript, ela facilita o trabalho da API supabase
+// lib(biblioteca) serviço do supabase: Nosso back-end vai ser o supabase. Obs: a lib do supabase é feita com Typescript, ela facilita o trabalho da API supabase
 import { createClient } from '@supabase/supabase-js';
 
-import { ButtonSendSticker } from '../src/componentes/ButtonSendSticker'
+import { getUser } from "../src/services/apiGit";
 
-// Chave da API supabase(nosso Backend as a Service ) NUNCA MOSTRAR CHAVES DE API
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTY0MzI5NzUwMywiZXhwIjoxOTU4ODczNTAzfQ.5KbBTLrxHcWIK0Npw1NRuYfmhL06jG-o5NeF2pslUDE';
-// Link do meu back-end
-const SUPABASE_URL = 'https://zojfhopdngfkmssmisbo.supabase.co';
+// Componentes
+import { ButtonSendSticker } from '../src/componentes/chat/ButtonSendSticker';
+import { Loading } from '../src/componentes/chat/Loading';
+import { Header } from '../src/componentes/chat/Header';
+import { MessageList } from '../src/componentes/chat/MessageList';
+
+import { SUPABASE_URL, SUPABASE_ANON_KEY } from "../src/services/bancoDeDados";
+// supabase(serviço back-end) cliente, através dele que é possível pegar dados
 const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 export default function ChatPage() {
+    // Pegando o metodo que jogar o username usando o router do next, com esse nome é armazenado na config.json
+    getUser()
+
     const [mensagem, setMensagem] = React.useState('');
 
     //o useState padrão é um array vazio, porque não tem mensagem nem uma ainda
@@ -22,19 +29,19 @@ export default function ChatPage() {
 
     const [loading, setLoading] = React.useState(false);
 
-    // Esse metodo serve pra a gente ver as mensagens em tempo real, ele so é assionado quando da o insert(INSERT) e ai ele faz algo, no caso mostrar a menasgem em tempo real. Então toda vez que essa função recebe um valor que é quando alguem deu um insert no banco de dados no caso esse insert é a mensagem composta(objeto: de e texto, já o id é feito no servidor) que foi feita pelo metodo handleNovaMensagem(pelo enter ou botão enviar), e quando essa mensagem composta é recebida pelo servidor atraves do insert, ele retorna pro metodo escuta mensagens(que so funciona(on) quando alguem da INSERT) acionando o useEffect e la ele seta essa nova mensagem com as mensagens antigas fazendo aparecer em tempo real. Então o useEffect so vai rodar agora caso a pessoa atualize novamente a pagina setando todas as mensagens do banco de dados pro array em memoria(listaDeMensagen) para aparecer aqui na tela e no momento que alguem envia uma mensagem pro banco de dados(insert), aciona a função escuta mensagens que é chamada no useEffect assim setando uma nova mensagem no array(listaDeMensagens) em memoria para aparecer na tela em tempo real
-    function escutaMensagensEmTempoReal(adicionaMensagem) {
+    // Esse metodo serve pra a gente ver as mensagens em tempo real, ele so é acionado quando da o insert(INSERT) no banco e ai ele faz algo. Então toda vez que essa função recebe um valor que é quando alguem deu um insert no banco de dados no caso esse insert é a mensagem composta(objeto: de e texto, já o id é feito no servidor) que foi feita pelo metodo handleNovaMensagem(pelo enter ou botão enviar), e quando essa mensagem composta é recebida pelo servidor atraves do insert, ele retorna pro metodo escuta mensagens(que so funciona(on) quando alguem da INSERT) acionando o useEffect e la ele seta essa nova mensagem com as mensagens antigas no array em memoria(listaDemensagens) fazendo aparecer em tempo real. Então o useEffect so vai rodar agora caso a pessoa atualize novamente a pagina setando todas as mensagens do banco de dados pro array em memoria(listaDeMensagen) para aparecer aqui na tela e no momento que alguem envia uma mensagem pro banco de dados(insert), aciona a função escuta mensagens que é chamada no useEffect assim setando uma nova mensagem no array(listaDeMensagens) em memoria para aparecer na tela em tempo real
+    function escutaMensagensEmTempoReal(atualizarMensagem) {
         return supabaseClient
             .from('mensagens')
             .on('INSERT', (respostaLive) => {
-                adicionaMensagem(respostaLive.new);
+                atualizarMensagem(respostaLive.new);
             })
             .subscribe();
     }
 
     // useEffect é para lidar com as coisas que fogem do fluxo padrão do componente. fluxo padrão  -> execução. Ter todos os valores na mão que bota no meio do return ele aparece, agora se o dado precisa vim de um servidor externo(precisa demorar um pouco pra acontecer) ele não faz parte do fluxo padrão, ele é um efeito colateral(uma coisa extra)
-    //Isolado no useEffect: O efeito de bater no servidor, etc ta dentro do useEffect, então não vai ser toda vez que vai renderizar o chat page, porque agora esta dentro de algo que so renderiza em certos momentos, esses momentos são: na hora que a pagina carrega(padrão) e quando a lista de mensagens atualizar, então essa função so vai bater/requisitar o servidor quando carregar a pagina e quando a lista de mensagens atualizar. Obs: o listaDeMensagens dentro do array é para isso mesmo, pra falar que é so pra bater no servidor quando a lista de mensagem atualizar(mudar) porque o useEffect vai observar as mudanças do listaDeMensagens, com isso não vai rodar varias vezes, somente quando mudar.
-    // OBS: Antes tinha o listaDeMensagens no array do useEffect, mas como agora a gente usa um metodo pra escutar mensagens em tempo real pra atualizar a tela então não é preciso que o useEffect funcione quando a listaDeMensagens mudar, e sim quando enviamos a mensagem pro servidor que do servidor a gente seta pra lista de mensagens e se a gente tivesse colocado a listaDeMensagens no array do useEffect ela iria atualizar a listaDeMensagens duas vezes no array, tanto que da um warning e acaba que fala que ja existe a mesma mensagem na tela com a mesma Key
+    //Isolado no useEffect: O efeito de bater no servidor, etc ta dentro do useEffect, então não vai ser toda vez que vai renderizar o chat pagesetListaDeMensagens(data), porque agora esta dentro de algo que so renderiza em certos momentos, esses momentos são: na hora que a pagina carrega(padrão) e quando a lista de mensagens atualizar, então essa função so vai bater/requisitar o servidor quando carregar a pagina e quando a lista de mensagens atualizar. Obs: o listaDeMensagens dentro do array é para isso mesmo, pra falar que é so pra bater no servidor quando a lista de mensagem atualizar(mudar) porque o useEffect vai observar as mudanças do listaDeMensagens, com isso não vai rodar varias vezes, somente quando mudar.
+    // OBS: Antes tinha o listaDeMensagens no array do useEffect, mas como agora a gente usa um metodo pra escutar mensagens em tempo real pra atualizar a tela então não é preciso que o useEffect funcione quando a listaDeMensagens mudar, e sim quando enviamos a mensagem pro servidor que do servidor a gente seta pra lista de mensagens atraves do escutaMensagensEmTempoReal 
     React.useEffect(() => {
         // Usando a biblioteca do supabase, em vez de fazer na unha com o fetch, pra capturar as mensagens no servidor
         // Com o ponto from a gente passa o nome da tabela que foi criada no supabase, o select é o que a gente quer pegar, no caso tudo 
@@ -112,57 +119,27 @@ export default function ChatPage() {
     }
     // Aqui ele apaga a mensagem usando filter no MessageList, a exclusão funciona atraves do id da mensagem que tem na tabela do suprabase que foi enviada pelo usuario
     function handleDeleteMessage(id, mensagemDe) {
+
+
         if (user === mensagemDe) {
-            supabaseClient
-                .from('mensagens')
-                .delete()
-                .match({ id: id })
-                .then(({ data }) => {
-                    const listaDeMensagemFiltrada = listaDeMensagens.filter((messageFiltered) => {
-                        return messageFiltered.id != data[0].id;
+            const result = confirm('Você quer mesmo apagar sua mensagem ?')
+            if (result === true) {
+                supabaseClient
+                    .from('mensagens')
+                    .delete()
+                    .match({ id: id })
+                    .then(({ data }) => {
+                        const listaDeMensagemFiltrada = listaDeMensagens.filter((messageFiltered) => {
+                            return messageFiltered.id != data[0].id;
+                        })
+                        // Setando a nova lista filtrada, com uma mensagem a menos
+                        setListaDeMensagens(listaDeMensagemFiltrada)
+
                     })
-                    // Setando a nova lista filtrada, com uma mensagem a menos
-                    setListaDeMensagens(listaDeMensagemFiltrada)
-                    alert('mensagem excluida com sucesso :)')
-                })
+            }
         } else {
             alert('APAGUE AS SUAS PROPIAS MENSAGENS >:[')
         }
-    }
-
-    function LoadingComponent() {
-        return (
-            <>
-                <Box
-                    styleSheet={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        height: '100%'
-                    }}
-                >
-                    <Image
-                        styleSheet={{
-                            animation: 'rotation .5s linear infinite',
-                        }}
-                        src='https://vignette.wikia.nocookie.net/leagueoflegends/images/e/e4/LoL_Facebook_Icon_14.gif/revision/latest?cb=20161029213743'
-                    />
-                    <Text
-                        styleSheet={{
-                            fontSize: '25px',
-                            maxWidth: '300px',
-                            textAlign: 'center',
-                            color: appConfig.theme.colors.primary[1000],
-                            boxShadow: '0 0 5em rgb( 223, 184, 122)'
-                        }}
-                    >
-                        Carregando o chat...
-                    </Text>
-
-                </Box>
-            </>
-        )
     }
 
     return (
@@ -208,7 +185,7 @@ export default function ChatPage() {
                     mensagens(so um nome aleatorio) recebe a lista de mensagens que atraves do props a gente consegue manipular, mesma coisa pro deleteMessage
                     */}
                     {loading === true ? <MessageList mensagens={listaDeMensagens} deleteMessage={handleDeleteMessage} />
-                        : <LoadingComponent />}
+                        : <Loading />}
 
                     {/* Map serve pra mapear as mensagens na lista de mensagens que serve de entrada pra uma nova saida padronizada*/}
                     {/* {listaDeMensagens.map((mensagemAtual) => {
@@ -285,211 +262,6 @@ export default function ChatPage() {
                     </Box>
                 </Box>
             </Box>
-        </Box>
-    )
-}
-
-// Componente header feito por nos e não pela @skynexui/components
-function Header() {
-    return (
-        <>
-            <Box styleSheet={{
-                width: '100%',
-                marginBottom: '16px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between'
-            }}
-            >
-                <Text
-                    variant='heading5'
-                    styleSheet={{
-                        color: appConfig.theme.colors.primary[1000],
-                    }}
-                >
-                    Chat
-                </Text>
-                <Image
-                    styleSheet={{
-                        width: '40px',
-                        height: '40px',
-                        borderRadius: '50%',
-                        display: 'inline-block',
-                        marginRight: '5px',
-                        marginLeft: '5px',
-                        border: '1px solid rgb( 223, 184, 122)',
-                        transition: 'all 0.2s ease-in',
-                        hover: {
-                            transition: 'all 0.2s ease-in',
-                            width: '50px',
-                            height: '50px',
-                        }
-                    }}
-                    src={`https://github.com/${appConfig.username}.png`}
-                />
-
-                <Text
-                    styleSheet={{
-                        fontSize: '20px',
-                        borderBottom: '1px solid rgb( 223, 184, 122)'
-                    }}
-                >
-                    {appConfig.username}
-                </Text>
-                <Button
-                    variant='tertiary'
-                    label='Sair'
-                    href="/"
-                    styleSheet={{
-                        color: appConfig.theme.colors.primary[1000],
-                        hover: {
-                            boxShadow: ' 0 0 2em rgb( 223, 184, 122)',
-                        }
-                    }}
-                    buttonColors={{
-                        contrastColor: appConfig.theme.colors.primary[1000],
-                        mainColor: appConfig.theme.colors.primary["000"],
-                        mainColorLight: appConfig.theme.colors.neutrals[800],
-                        mainColorStrong: appConfig.theme.colors.neutrals[800],
-                    }}
-
-                />
-            </Box>
-        </>
-    )
-}
-
-// Componente de mensagem nosso que é o componente que faz as mensagens aparecerem na tela
-function MessageList(props) {
-    // Essa variavel armazena a função de deletar a mensagem atraves do props, que no componente do MessageList é passado-> props.deleteMessage
-    const handleDeleteMessage = props.deleteMessage
-    return (
-        <Box
-            tag="ul"
-            styleSheet={{
-                overflowY: 'auto',
-                overflowX: 'hidden',
-                display: 'flex',
-                flexDirection: 'column-reverse',
-                flex: 1,
-                color: appConfig.theme.colors.neutrals["000"],
-                marginBottom: '16px',
-
-            }}
-        >
-            {/* Aqui a gente não armazena, mas faz uma função que recebe uma lista de mensagens que foi gerada ao enviar uma mensagem pelo metodo handleNovaMensagem que armazena a mensgem no array e apaga a mesma mensagem no campo, com isso esse metodo abaixo mapeia(map) as mensagen armazenadas no lista de mensagens que tem o "id, de e o texto" */}
-            {props.mensagens.map((mensagem) => {
-                return (
-                    <Text
-                        key={mensagem.id}
-                        tag="li"
-                        styleSheet={{
-                            borderRadius: '5px',
-                            padding: '6px',
-                            marginBottom: '12px',
-                            hover: {
-                                backgroundColor: appConfig.theme.colors.neutrals[500],
-                            }
-                        }}
-                    >
-
-                        <Box
-                            styleSheet={{
-                                marginBottom: '8px',
-                            }}
-                        >
-                            <a
-                                target="_blank"
-                                variant="body4"
-                                style={{
-                                    textDecoration: 'none',
-                                    cursor: 'pointer',
-                                    height: '45px',
-                                }}
-                                href={`https://github.com/${mensagem.de}`}>
-                                <Image
-                                    styleSheet={{
-                                        width: '30px',
-                                        height: '30px',
-                                        borderRadius: '50%',
-                                        display: 'inline-block',
-                                        marginRight: '8px',
-                                        transition: 'all 0.2s ease-in-out',
-                                        hover: {
-                                            width: '45px',
-                                            height: '45px',
-                                            transition: 'all 0.2s ease-in-out',
-                                        }
-                                    }}
-                                    src={`https://github.com/${mensagem.de}.png`}
-                                />
-                            </a>
-                            <Text
-                                tag="strong"
-                            >
-                                {mensagem.de}
-                            </Text>
-                            <Text
-                                styleSheet={{
-                                    fontSize: '10px',
-                                    marginLeft: '8px',
-                                    color: appConfig.theme.colors.neutrals[300],
-                                }}
-                                tag="span"
-                            >
-                                {(new Date().toLocaleDateString())}
-                            </Text>
-                            <Text
-                                onClick={() => handleDeleteMessage(mensagem.id, mensagem.de)}
-                                styleSheet={{
-                                    fontSize: '10px',
-                                    fontWeight: 'bold',
-                                    marginLeft: 'auto',
-                                    color: appConfig.theme.colors.primary[1000],
-                                    backgroundColor: '#fff',
-                                    width: '35px',
-                                    height: '35px',
-                                    borderRadius: '100%',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    cursor: 'pointer',
-                                    transition: 'all 0.2s ease-in-out',
-                                    hover: {
-                                        backgroundColor: appConfig.theme.colors.neutrals[800],
-                                        boxShadow: ' 0 0 2em rgb( 223, 184, 122)',
-                                        transition: 'all 0.2s ease-in-out',
-                                    }
-                                }}
-                                tag="span"
-                                data-id={mensagem.id}
-                            >
-                                X
-                            </Text>
-                        </Box>
-                        {/* Modo Declarativo, ou seja a gente declara o que a gente quer que retorne, ja no outro if a gente da ordem pra retorna que é o if padrão se acontecer isso injeta isso nesse pedaço aqui, ja essse é o if operador ternario a onde a gente so descreve(declarativo) se for assim na hora que tiver renderizando*/}
-                        {mensagem.texto.startsWith(':sticker:')
-                            ? (
-                                <Image
-                                    styleSheet={{
-                                        width: '200px',
-                                    }}
-                                    src={mensagem.texto.replace(':sticker:', '')} />
-                            )
-                            : (
-                                <Text
-                                    styleSheet={{
-                                        hover: {
-                                            borderBottom: '1px solid rgb( 223, 184, 122)',
-                                        }
-                                    }}>
-                                    {mensagem.texto}
-                                </Text>
-                            )}
-
-                    </Text>
-                );
-            })}
         </Box>
     )
 }
