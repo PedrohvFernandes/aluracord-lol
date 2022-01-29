@@ -59,6 +59,7 @@ export function MessageList(props) {
                             borderRadius: '5px',
                             padding: '6px',
                             marginBottom: '12px',
+                            wordBreak:'break-all',
                             hover: {
                                 backgroundColor: appConfig.theme.colors.neutrals[500],
                             }
