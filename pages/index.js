@@ -162,7 +162,6 @@ export default function PaginaInicial() {
                           (data) => {
                             // seta os dados pra aparecer na telinha que aparece a imagem do usuario
                             setDados(data)
-                            console.log(data)
                           }
                         );
                       // Aqui seta o nome do usuario caso ele existir
