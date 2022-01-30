@@ -62,7 +62,7 @@ export default function MyApp({ Component, pageProps }) {
         <meta property="og:title" content="Concord" key="title" />
         <meta property="og:description" content="Venha jogar um lolzin." />
         <meta property="og:url" content="aluracord-lol.vercel.app" />
-        <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+        <link rel="shortcut icon" href="favicon-32x32.png" type="image/x-icon" />
       </Head>
       <Component {...pageProps} />
     </>
