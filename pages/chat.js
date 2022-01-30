@@ -17,7 +17,7 @@ import { SUPABASE_URL, SUPABASE_ANON_KEY } from "../src/services/bancoDeDados";
 const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 export default function ChatPage() {
-    // Pegando o metodo que jogar o username usando o router do next, com esse nome é armazenado na config.json
+    // Pegando o metodo que joga o username da query usando o router do next pro username do config.json
     getUsuario()
 
     const [mensagem, setMensagem] = React.useState('');
