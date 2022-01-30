@@ -20,7 +20,7 @@ export function MessageList(props) {
             data = 'Hoje'
         }else{
              // Caso ja tenha passado um dia ele tira se foi 'hoje' e coloca a data que foi inserido essa mensagem
-            time = new Date(string).toLocaleDateString()
+            time = new Date(string).toLocaleDateString() + ', as: '+ new Date(string).toLocaleTimeString().substring(0, 5)
             data = ''
         }
         return `${time} ${data}`
