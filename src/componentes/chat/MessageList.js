@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Text, Image } from '@skynexui/components';
 import appConfig from '../../../config.json';
-import { gitURL, apiGithub } from "../../services/apiGit";
+import { gitURL } from "../../services/apiGit";
 
 // Componente de mensagem nosso que é o componente que faz as mensagens aparecerem na tela
 export function MessageList(props) {

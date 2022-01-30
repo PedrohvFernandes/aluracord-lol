@@ -121,7 +121,7 @@ export default function ChatPage() {
     function handleDeleteMessage(id, mensagemDe) {
 
 
-        if (user.toUpperCase() === mensagemDe.toUpperCase()) {
+        if (user.toLowerCase() === mensagemDe.toLowerCase()) {
             const result = confirm('Você quer mesmo apagar sua mensagem ?')
             if (result === true) {
                 supabaseClient
