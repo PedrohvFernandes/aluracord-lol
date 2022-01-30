@@ -1,3 +1,5 @@
+// Importando o head igual do html a onde fica os metadados(font, favico, styles(css)), a gente importa aqui porque o _app.js é reconhecido pelo next como config global https://ichi.pro/pt/uma-estrutura-de-diretorios-e-arquivos-next-js-basica-opinativa-150628700170073
+import Head from "next/head";
 //Componente que vai resetar todo o estilo da pagina, por isso o nome global
 function GlobalStyle() {
   return (
@@ -54,6 +56,14 @@ export default function MyApp({ Component, pageProps }) {
   return (
     <>
       <GlobalStyle />
+      <Head>
+        <title>Lolcord</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+        <meta property="og:title" content="Concord" key="title" />
+        <meta property="og:description" content="Venha jogar um lolzin." />
+        <meta property="og:url" content="aluracord-lol.vercel.app" />
+        <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+      </Head>
       <Component {...pageProps} />
     </>
   )
