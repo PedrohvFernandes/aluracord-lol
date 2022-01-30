@@ -15,15 +15,13 @@ export function MessageList(props) {
         // se foi no passado, ontem, etc
         var data
         // a data de hoje - a data da mensagem que é pega pelo created_al
-        switch (new Date().getDay() - new Date(string).getDay()) {
+        if(new Date().getDay() - new Date(string).getDay() === 0){
             // Caso se a mensagem foi enviado hoje então: a data de hoje - a data de envio da mensagem = 0
-            case 0:
-                data = 'Hoje'
-                break
-            // Caso ja tenha passado um dia ele tira se foi 'hoje' e coloca a data que foi inserido essa mensagem
-            default:
-                time = new Date(string).toLocaleDateString()
-                data = ''
+            data = 'Hoje'
+        }else{
+             // Caso ja tenha passado um dia ele tira se foi 'hoje' e coloca a data que foi inserido essa mensagem
+            time = new Date(string).toLocaleDateString()
+            data = ''
         }
         return `${time} ${data}`
     }
