@@ -10,10 +10,8 @@ export function MessageList(props) {
 
     // Passa o tempo que foi enviando a mensagem created_al, esse created_al pega a data do dia de criação de mensagem, por exemplo: 2022-01-29T13:24:05.54942+00:00
     function gerenciadorDeData(string) {
-        // tempo
+        // tempo da mensagem
         var time = new Date(string).toLocaleTimeString().substring(0, 5)
-        // dia
-        var date = new Date().toLocaleDateString()
         // se foi no passado, ontem, etc
         var data
         // a data de hoje - a data da mensagem que é pega pelo created_al
@@ -22,18 +20,12 @@ export function MessageList(props) {
             case 0:
                 data = 'Hoje'
                 break
-            case 1:
-                data = 'ontem'
-                break
-            case 2:
-                data = 'anteontem'
-                break
-            // Caso ja tenha passado mais de 2 dias ele fala que ja tem mais de dois dias e a data
+            // Caso ja tenha passado um dia ele tira se foi 'hoje' e coloca a data que foi inserido essa mensagem
             default:
-                time = 'Mais de 2 dias'
-                data = new Date(string).toLocaleDateString()
+                time = new Date(string).toLocaleDateString()
+                data = ''
         }
-        return `${data} ${date} ${time}`
+        return `${time} ${data}`
     }
     return (
         <Box

@@ -4,7 +4,7 @@ import appConfig from '../config.json';
 // lib(biblioteca) serviço do supabase: Nosso back-end vai ser o supabase. Obs: a lib do supabase é feita com Typescript, ela facilita o trabalho da API supabase
 import { createClient } from '@supabase/supabase-js';
 
-import { getUser } from "../src/services/apiGit";
+import { getUsuario} from "../src/services/apiGit";
 
 // Componentes
 import { ButtonSendSticker } from '../src/componentes/chat/ButtonSendSticker';
@@ -18,7 +18,7 @@ const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 export default function ChatPage() {
     // Pegando o metodo que jogar o username usando o router do next, com esse nome é armazenado na config.json
-    getUser()
+    getUsuario()
 
     const [mensagem, setMensagem] = React.useState('');
 
@@ -121,7 +121,7 @@ export default function ChatPage() {
     function handleDeleteMessage(id, mensagemDe) {
 
 
-        if (user === mensagemDe) {
+        if (user.toUpperCase() === mensagemDe.toUpperCase()) {
             const result = confirm('Você quer mesmo apagar sua mensagem ?')
             if (result === true) {
                 supabaseClient
