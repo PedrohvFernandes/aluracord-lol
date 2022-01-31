@@ -46,10 +46,7 @@ export function InfoUser(props) {
                 <Box
                     className='modalUser'
                     styleSheet={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignContent: 'center',
-                        borderRadius: '2px',
+                        borderRadius: '10px',
                         position: 'absolute',
                         backgroundColor: appConfig.theme.colors.neutrals[600],
                         width: 'auto',
@@ -69,6 +66,7 @@ export function InfoUser(props) {
                         backgroundColor: appConfig.theme.colors.neutrals[700],
                         width: '300px',
                         height: 'auto',
+                        borderRadius:'10px'
 
                     }}>
                         <Text
