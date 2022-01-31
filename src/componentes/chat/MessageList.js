@@ -15,12 +15,12 @@ export function MessageList(props) {
         // se foi no passado, ontem, etc
         var data
         // a data de hoje - a data da mensagem que é pega pelo created_al
-        if(new Date().getDay() - new Date(string).getDay() === 0){
+        if (new Date().getDay() - new Date(string).getDay() === 0) {
             // Caso se a mensagem foi enviado hoje então: a data de hoje - a data de envio da mensagem = 0
             data = 'Hoje'
-        }else{
-             // Caso ja tenha passado um dia ele tira se foi 'hoje' e coloca a data que foi inserido essa mensagem
-            time = new Date(string).toLocaleDateString() + ', às: '+ new Date(string).toLocaleTimeString().substring(0, 5)
+        } else {
+            // Caso ja tenha passado um dia ele tira se foi 'hoje' e coloca a data que foi inserido essa mensagem
+            time = new Date(string).toLocaleDateString() + ', às: ' + new Date(string).toLocaleTimeString().substring(0, 5)
             data = ''
         }
         return `${time} ${data}`
@@ -49,7 +49,7 @@ export function MessageList(props) {
                             borderRadius: '5px',
                             padding: '6px',
                             marginBottom: '12px',
-                            wordBreak:'break-all',
+                            wordBreak: 'break-all',
                             hover: {
                                 backgroundColor: appConfig.theme.colors.neutrals[500],
                             }
@@ -61,7 +61,7 @@ export function MessageList(props) {
                                 marginBottom: '8px',
                             }}
                         >
-                            <InfoUser mensagemDe={mensagem.de}/>
+                            <InfoUser mensagemDe={mensagem.de} />
                             <Text
                                 tag="strong"
                             >
