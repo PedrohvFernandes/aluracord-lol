@@ -19,7 +19,7 @@ export function ModalDeleteMensageRecusado(props) {
                     right: '50%',
                     bottom: '50%',
                     marginBottom: '-150px',
-                    marginRight: '-155px'
+                    marginRight: '-200px'
                 }}
 
             >
