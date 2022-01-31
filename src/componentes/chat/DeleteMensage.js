@@ -90,12 +90,13 @@ export function DeleteMensage(props) {
                                     contrastColor: appConfig.theme.colors.primary[1000],
                                     mainColor: appConfig.theme.colors.primary["000"],
                                     mainColorLight: appConfig.theme.colors.neutrals[800],
-                                    mainColorStrong: appConfig.theme.colors.neutrals[800],
+                                    mainColorStrong: '#8A0517',
                                 }}
                                 styleSheet={{
                                     color: appConfig.theme.colors.primary[1000],
                                     marginRight:'5px',
                                     hover: {
+                                        color:'white',
                                         boxShadow: ' 0 0 0.5em rgb( 223, 184, 122)',
                                     }
                                 }}
