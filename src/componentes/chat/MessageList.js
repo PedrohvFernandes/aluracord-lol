@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Text, Image } from '@skynexui/components';
 import appConfig from '../../../config.json';
-import { gitURL } from "../../services/apiGit";
+import { InfoUser } from './InfoUser';
 
 // Componente de mensagem nosso que é o componente que faz as mensagens aparecerem na tela
 export function MessageList(props) {
@@ -61,33 +61,7 @@ export function MessageList(props) {
                                 marginBottom: '8px',
                             }}
                         >
-                            <a
-                                target="_blank"
-                                variant="body4"
-                                style={{
-                                    textDecoration: 'none',
-                                    cursor: 'pointer',
-                                    height: '45px',
-                                }}
-                                href={`${gitURL}${mensagem.de}`}>
-                                <Image
-                                    styleSheet={{
-                                        width: '30px',
-                                        height: '30px',
-                                        borderRadius: '50%',
-                                        display: 'inline-block',
-                                        marginRight: '8px',
-                                        transition: 'all 0.2s ease-in-out',
-                                        hover: {
-                                            width: '45px',
-                                            height: '45px',
-                                            transition: 'all 0.2s ease-in-out',
-                                        }
-                                    }}
-                                    src={`${gitURL}${mensagem.de}.png`}
-
-                                />
-                            </a>
+                            <InfoUser mensagemDe={mensagem.de}/>
                             <Text
                                 tag="strong"
                             >

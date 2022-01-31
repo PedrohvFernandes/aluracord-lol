@@ -1,9 +1,23 @@
 import React from 'react';
 import { Box, Button, Text, Image } from '@skynexui/components';
 import appConfig from '../../../config.json';
+import { gitURL } from '../../services/apiGit';
 
 // Componente header feito por nos e não pela @skynexui/components
-export function Header() {
+export function Header(props) {
+    const [nome, setNome] = React.useState('');
+
+    const nomeUser = props.nomeDe;
+
+
+    if (nome.length < nomeUser.length) {
+        let count = nome.length
+        setTimeout(() => {
+            setNome(nome + nomeUser[count]);
+        }, 65);
+
+    }
+
     return (
         <>
             <Box styleSheet={{
@@ -38,16 +52,17 @@ export function Header() {
                             height: '50px',
                         }
                     }}
-                    src={`https://github.com/${appConfig.username}.png`}
+                    src={`${gitURL}${nomeUser}.png`}
                 />
 
                 <Text
+                    className='nomeUsuario'
                     styleSheet={{
                         fontSize: '20px',
                         borderBottom: '1px solid rgb( 223, 184, 122)'
                     }}
                 >
-                    {appConfig.username}
+                    {nome}
                 </Text>
                 <Button
                     variant='tertiary'

@@ -45,7 +45,25 @@ function GlobalStyle() {
               transform: rotate(1turn);
           }
       }
+      h1::after, .nomeUsuario::after{
+        content:'|';
+        opacity: 1;
+        animation: pisca .7s infinite;
+      }
+      
+      @keyframes pisca {
+        0%, 100%{
+          opacity: 1;
+        }
+        50%{
+          opacity: 0;
+        }
+    }
+    .modalUser{
+      animation: pisca .5s;
+    }
 
+  }
       `}</style>
   );
 }

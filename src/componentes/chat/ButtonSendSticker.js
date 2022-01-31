@@ -24,9 +24,19 @@ export function ButtonSendSticker(props) {
       12:'🧑‍💻',
       13:'👀',
       14:'👏',
-      15:'😎'
+      15:'😎',
+      16:'🥺',
+      17:'🥶',
+      18:'🧐',
+      19:'😬',
+      20:'😱',
+      21:'👻',
+      22:'💀',
+      23:'🤡',
+      24:'🎃',
+      25:'👾'
     };
-    const randomCarinhas = Math.floor(Math.random() * (15 - 1) + 1);
+    const randomCarinhas = Math.floor(Math.random() * (25 - 1) + 1);
 
     const trocaCarinhas = carinhas[randomCarinhas];
     setCarinha(trocaCarinhas)
@@ -46,7 +56,6 @@ export function ButtonSendSticker(props) {
           padding: '0 3px 0 0',
           minWidth: '60px',
           minHeight: '60px',
-          fontSize: '20px',
           marginBottom: '8px',
           lineHeight: '0',
           display: 'flex',
@@ -67,8 +76,7 @@ export function ButtonSendSticker(props) {
           mainColorStrong: appConfig.theme.colors.neutrals[800],
         }}
         label={carinha}
-        onClick={() => {
-          const randomCarinhas = Math.floor(Math.random() * (15 - 1) + 1);       
+        onClick={() => {     
           const carinhas = {
             1: '🙂',
             2: '😙',
@@ -85,7 +93,18 @@ export function ButtonSendSticker(props) {
             13:'👀',
             14:'👏',
             15:'😎',
+            16:'🥺',
+            17:'🥶',
+            18:'🧐',
+            19:'😬',
+            20:'😱',
+            21:'👻',
+            22:'💀',
+            23:'🤡',
+            24:'🎃',
+            25:'👾'
           };
+          const randomCarinhas = Math.floor(Math.random() * (25 - 1) + 1);  
           const trocaCarinhas = carinhas[randomCarinhas];
           setCarinha(trocaCarinhas)
           setOpenState(!isOpen)

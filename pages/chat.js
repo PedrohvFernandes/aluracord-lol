@@ -4,7 +4,7 @@ import appConfig from '../config.json';
 // lib(biblioteca) serviço do supabase: Nosso back-end vai ser o supabase. Obs: a lib do supabase é feita com Typescript, ela facilita o trabalho da API supabase
 import { createClient } from '@supabase/supabase-js';
 
-import { getUsuario} from "../src/services/apiGit";
+import { getUsuario } from "../src/services/apiGit";
 
 // Componentes
 import { ButtonSendSticker } from '../src/componentes/chat/ButtonSendSticker';
@@ -167,7 +167,7 @@ export default function ChatPage() {
 
                 }}
             >
-                <Header />
+                <Header nomeDe={user} />
                 <Box
                     styleSheet={{
                         position: 'relative',

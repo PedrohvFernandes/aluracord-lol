@@ -59,7 +59,7 @@ export default function PaginaInicial() {
     let count = titulo.length
     setTimeout(() => {
       setTitulo(titulo + texto[count]);
-    }, 70);
+    }, 65);
 
   }
 
@@ -139,8 +139,19 @@ export default function PaginaInicial() {
                 maxHeight: '150px'
               }}
             />
-            <Titulo tag="h1">{titulo}</Titulo>
-            <Text variant="body3" styleSheet={{ fontFamily: 'friz quadrata bold', marginBottom: '32px', color: appConfig.theme.colors.neutrals[300] }}>
+            <Titulo 
+            tag="h1">
+              {titulo}
+            </Titulo>
+  
+            <Text 
+            variant="body3" 
+            styleSheet={{ 
+              fontFamily: 'friz quadrata bold', 
+              marginBottom: '32px', 
+              color: appConfig.theme.colors.neutrals[300] 
+              }}>
+
               {appConfig.name} ({username})
             </Text>
 
