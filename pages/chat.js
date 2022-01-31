@@ -209,7 +209,7 @@ export default function ChatPage() {
                                 setMensagem(valor);
                             }}
                             onKeyPress={(event) => {
-                                if (event.key === 'Enter') {
+                                if (event.key === 'Enter' && event.shiftKey === false) {
                                     // Sempre que tiver o enter a gente previne o comportamento padrão do enter que é a quebra de linha
                                     event.preventDefault();
                                     // Metodo pra nova mensgem
