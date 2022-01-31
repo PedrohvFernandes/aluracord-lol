@@ -2,11 +2,10 @@ import React from 'react';
 import { Box, Text, Image } from '@skynexui/components';
 import appConfig from '../../../config.json';
 import { InfoUser } from './InfoUser';
+import { DeleteMensage } from './DeleteMensage'
 
 // Componente de mensagem nosso que é o componente que faz as mensagens aparecerem na tela
 export function MessageList(props) {
-    // Essa variavel armazena a função de deletar a mensagem atraves do props, que no componente do MessageList é passado-> props.deleteMessage
-    const handleDeleteMessage = props.deleteMessage
 
     // Passa o tempo que foi enviando a mensagem created_al, esse created_al pega a data do dia de criação de mensagem, por exemplo: 2022-01-29T13:24:05.54942+00:00
     function gerenciadorDeData(string) {
@@ -39,9 +38,13 @@ export function MessageList(props) {
 
             }}
         >
+
             {/* Aqui a gente não armazena, mas faz uma função que recebe uma lista de mensagens que foi gerada ao enviar uma mensagem pelo metodo handleNovaMensagem que armazena a mensgem no array e apaga a mesma mensagem no campo, com isso esse metodo abaixo mapeia(map) as mensagen armazenadas no lista de mensagens que tem o "id, de e o texto" */}
             {props.mensagens.map((mensagem) => {
+                // Essa variavel armazena a função de deletar a mensagem atraves do props, que no componente do MessageList é passado-> props.deleteMessage
+                const handleDeleteMessage = props.deleteMessage
                 return (
+
                     <Text
                         key={mensagem.id}
                         tag="li"
@@ -55,7 +58,6 @@ export function MessageList(props) {
                             }
                         }}
                     >
-
                         <Box
                             styleSheet={{
                                 marginBottom: '8px',
@@ -78,7 +80,7 @@ export function MessageList(props) {
                                 {/* O campo Created_at indica a hora da criação do documento e o campo updated_at indica a hora da atualização, se houver, a hora da criação do documento. */}
                                 {gerenciadorDeData(mensagem.created_at)}
                             </Text>
-                            <Text
+                            {/* <Text
                                 onClick={() => handleDeleteMessage(mensagem.id, mensagem.de)}
                                 styleSheet={{
                                     fontSize: '10px',
@@ -104,7 +106,8 @@ export function MessageList(props) {
                                 data-id={mensagem.id}
                             >
                                 X
-                            </Text>
+                            </Text> */}
+                            <DeleteMensage deleteMensagens={() => handleDeleteMessage(mensagem.id, mensagem.de)} />
                         </Box>
                         {/* Modo Declarativo, ou seja a gente declara o que a gente quer que retorne, ja no outro if a gente da ordem pra retorna que é o if padrão se acontecer isso injeta isso nesse pedaço aqui, ja essse é o if operador ternario a onde a gente so descreve(declarativo) se for assim na hora que tiver renderizando*/}
                         {mensagem.texto.startsWith(':sticker:')

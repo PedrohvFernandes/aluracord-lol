@@ -11,6 +11,7 @@ import { ButtonSendSticker } from '../src/componentes/chat/ButtonSendSticker';
 import { Loading } from '../src/componentes/chat/Loading';
 import { Header } from '../src/componentes/chat/Header';
 import { MessageList } from '../src/componentes/chat/MessageList';
+import { ModalDeleteMensageRecusado } from '../src/componentes/chat/ModalDeleteMensageRecusado'
 
 import { SUPABASE_URL, SUPABASE_ANON_KEY } from "../src/services/bancoDeDados";
 // supabase(serviço back-end) cliente, através dele que é possível pegar dados
@@ -28,6 +29,8 @@ export default function ChatPage() {
     const user = appConfig.username
 
     const [loading, setLoading] = React.useState(false);
+
+    const [modalDeleteMensageRecusadoState , setModalDeleteMensageRecusado] = React.useState(false);
 
     // Esse metodo serve pra a gente ver as mensagens em tempo real, ele so é acionado quando da o insert(INSERT) no banco e ai ele faz algo. Então toda vez que essa função recebe um valor que é quando alguem deu um insert no banco de dados no caso esse insert é a mensagem composta(objeto: de e texto, já o id é feito no servidor) que foi feita pelo metodo handleNovaMensagem(pelo enter ou botão enviar), e quando essa mensagem composta é recebida pelo servidor atraves do insert, ele retorna pro metodo escuta mensagens(que so funciona(on) quando alguem da INSERT) acionando o useEffect e la ele seta essa nova mensagem com as mensagens antigas no array em memoria(listaDemensagens) fazendo aparecer em tempo real. Então o useEffect so vai rodar agora caso a pessoa atualize novamente a pagina setando todas as mensagens do banco de dados pro array em memoria(listaDeMensagen) para aparecer aqui na tela e no momento que alguem envia uma mensagem pro banco de dados(insert), aciona a função escuta mensagens que é chamada no useEffect assim setando uma nova mensagem no array(listaDeMensagens) em memoria para aparecer na tela em tempo real
     function escutaMensagensEmTempoReal(atualizarMensagem) {
@@ -119,26 +122,22 @@ export default function ChatPage() {
     }
     // Aqui ele apaga a mensagem usando filter no MessageList, a exclusão funciona atraves do id da mensagem que tem na tabela do suprabase que foi enviada pelo usuario
     function handleDeleteMessage(id, mensagemDe) {
-
-
         if (user.toLowerCase() === mensagemDe.toLowerCase()) {
-            const result = confirm('Você quer mesmo apagar sua mensagem ?')
-            if (result === true) {
-                supabaseClient
-                    .from('mensagens')
-                    .delete()
-                    .match({ id: id })
-                    .then(({ data }) => {
-                        const listaDeMensagemFiltrada = listaDeMensagens.filter((messageFiltered) => {
-                            return messageFiltered.id != data[0].id;
-                        })
-                        // Setando a nova lista filtrada, com uma mensagem a menos
-                        setListaDeMensagens(listaDeMensagemFiltrada)
-
+            supabaseClient
+                .from('mensagens')
+                .delete()
+                .match({ id: id })
+                .then(({ data }) => {
+                    const listaDeMensagemFiltrada = listaDeMensagens.filter((messageFiltered) => {
+                        return messageFiltered.id != data[0].id;
                     })
-            }
+                    // Setando a nova lista filtrada, com uma mensagem a menos
+                    setListaDeMensagens(listaDeMensagemFiltrada)
+
+                })
+
         } else {
-            alert('APAGUE AS SUAS PROPIAS MENSAGENS >:[')
+            setModalDeleteMensageRecusado(true)
         }
     }
 
@@ -259,6 +258,9 @@ export default function ChatPage() {
                                 handleNovaMensagem(':sticker: ' + sticker)
                             }}
                         />
+                        {modalDeleteMensageRecusadoState && (
+                        <ModalDeleteMensageRecusado estadoDeleteMensageModal={setModalDeleteMensageRecusado}/>
+                        )}
                     </Box>
                 </Box>
             </Box>

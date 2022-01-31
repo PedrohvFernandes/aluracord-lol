@@ -59,7 +59,7 @@ function GlobalStyle() {
           opacity: 0;
         }
     }
-    .modalUser{
+    .modalUser, .modalDeleteMensage, .modalDeleteMensageRecusado{
       animation: pisca .5s;
     }
 
