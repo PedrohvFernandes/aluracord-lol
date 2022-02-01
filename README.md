@@ -1,15 +1,21 @@
 # Aluracord League Of Legends 👨‍💻 
+
 ## Projeto criado na Imersão React com a @Alura @omariosouto @peas 
 
+<p align="center">
+  <img height="50" src="https://raw.githubusercontent.com/PedrohvFernandes/aluracord-lol/8b9a4a99cf8112314f271a3fd26a4de6ec611ac1/Screenshot/logo-imersao-react-header.1636535198.svg">
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</p>
+
 ### Feito com Next/React:
-#### Tela inicial 
-![Thumbnail:](https://github.com/PedrohvFernandes/aluracord-lol/blob/main/Screenshot/Tela%20inicial.png?raw=true)
+### Tela inicial
+  <img height="450" src="https://github.com/PedrohvFernandes/aluracord-lol/blob/main/Screenshot/Tela%20inicial.png?raw=true">
 
-#### Tela do chat 
-![Thumbnail:](https://github.com/PedrohvFernandes/aluracord-lol/blob/main/Screenshot/Tela%20do%20chat.png) 
+### Tela do chat 
+  <img height="450" src="https://github.com/PedrohvFernandes/aluracord-lol/blob/main/Screenshot/Tela%20do%20chat.png">
 
-#### Demo 
-![Thumbnail:](https://github.com/PedrohvFernandes/aluracord-lol/blob/main/Screenshot/Demonstra%C3%A7%C3%A3o.gif?raw=true) 
+### Demo 
+  <img height="500" src="https://github.com/PedrohvFernandes/aluracord-lol/blob/main/Screenshot/Demonstra%C3%A7%C3%A3o.gif?raw=true">
 
 ### Caso queria testar(hospedado na Vercel): aluracord-lol.vercel.app
 
@@ -24,7 +30,8 @@
 - Flexbox
 - Supabase
 
-## 👨‍💻 Autor
+## 👨‍💻 Autor:
 - Linkedin: https://www.linkedin.com/in/pedro-henrique-vieira-fernandes
 - Git: https://github.com/PedrohvFernandes
 - Instagram: pedro17fernandes
+- portfolio: PedrohvFernandes.github.io
