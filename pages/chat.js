@@ -113,6 +113,8 @@ export default function ChatPage() {
                     //     // A gente não da set na lista com o objeto mensagem composta direto do codigo, a mensagem agora é data(dado) da posição 0 que tem todas as informações
                     //     data[0],
                     //     //pega o data com o restante das mensagens... -> PEGA TODOS OS ITENS QUE JA TEM DENTRO DA LISTA E ESPALHA DENTRO DA LISTA NOVA E O DA MENSAGEM
+                    //     // no caso o ... quer dizer um conjunto de coisas, no caso um objeto de mensagens e transforma em um array do tipo passado
+                    //     //Esse 3 pontos indicam que podem ser inúmeros parâmetros passados que serão convertidos em um único array de objetos
                     //     ...listaDeMensagens,
                     // ]);
 
