@@ -115,6 +115,7 @@ export default function ChatPage() {
                     //     //pega o data com o restante das mensagens... -> PEGA TODOS OS ITENS QUE JA TEM DENTRO DA LISTA E ESPALHA DENTRO DA LISTA NOVA E O DA MENSAGEM
                     //     // no caso o ... quer dizer um conjunto de coisas, no caso um objeto de mensagens e transforma em um array do tipo passado
                     //     //Esse 3 pontos indicam que podem ser inúmeros parâmetros passados que serão convertidos em um único array de objetos
+                    //     //https://www.luiztools.com.br/post/4-segredos-do-operador-spread-em-javascript/
                     //     ...listaDeMensagens,
                     // ]);
 
