@@ -2,11 +2,14 @@
 ## Projeto criado na Imersão React com a @Alura @omariosouto @peas 
 
 ### Feito com Next/React:
-#### Tela inicial -
+#### Tela inicial 
 ![Thumbnail:](https://github.com/PedrohvFernandes/aluracord-lol/blob/main/Screenshot/Tela%20inicial.png?raw=true)
 
-#### Tela do chat -
+#### Tela do chat 
 ![Thumbnail:](https://github.com/PedrohvFernandes/aluracord-lol/blob/main/Screenshot/Tela%20do%20chat.png) 
+
+#### Demo 
+![Thumbnail:](https://github.com/PedrohvFernandes/aluracord-lol/blob/main/Screenshot/Demonstra%C3%A7%C3%A3o.gif?raw=true) 
 
 ### Caso queria testar(hospedado na Vercel): aluracord-lol.vercel.app
 
